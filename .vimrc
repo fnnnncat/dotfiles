@@ -9,6 +9,7 @@ Plugin 'scrooloose/nerdtree'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'mattn/emmet-vim'
 Plugin 'asins/vimcdoc'
+Plugin 'wincent/command-t'
 
 call vundle#end()
 filetype plugin indent on  
@@ -24,7 +25,7 @@ set ts=2
 set shiftwidth=4
 set tabstop=4
 set expandtab
-"set guifont=Source_Code_Pro:h24
+"set guifont=h24
 set mouse=a
 set backspace=indent,eol,start
 set exrc
@@ -56,10 +57,9 @@ let helptags=$VIM."/vimfiles/doc"
 set helplang=cn
 
 "Shortcut
-map <C-Z> u
-map <C-S> :w
-map <C-Y> <C-R>
-map <C-C> yy
-map <C-X> dd
-map <C-V> p
-map q :q
+let mapleader = "`"
+noremap <C-Z> u
+noremap <C-Y> <C-R>
+noremap <C-C> y
+noremap <Leader>w :w<CR>
+noremap <Leader>q :q<CR>
