@@ -1,5 +1,5 @@
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/Yunfan/.oh-my-zsh
+export ZSH=/Users/lee/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -54,14 +54,7 @@ plugins=(git autojump)
 # User configuration
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
-export GOPATH="/Users/Yunfan/Development/Go"
-export GOROOT="/usr/local/Cellar/go/1.6/libexec"
-export GOBIN="/Users/Yunfan/Development/Go/bin"
-export PHP_HOME="$(brew --prefix homebrew/php/php70)"
-export PYTHON_HOME="/usr/local/Cellar/python/2.7.11/"
-export ANDROID_HOME="/Users/Yunfan/Development/AndroidSDK"
 
-export PATH="$ANDROID_HOME/tools:$ANDROID_HOME/build-tools:$GOROOT:$PYTHON_HOME/bin:$PHP_HOME/bin:$GOPATH:$GOBIN:$PATH"
 # export MANPATH="/usr/local/man:$MANPATH"
 
 source $ZSH/oh-my-zsh.sh
@@ -90,6 +83,3 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias mvim="/Applications/MacVim.app/Contents/MacOS/MacVim"
-
-screenfetch
