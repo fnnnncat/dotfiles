@@ -2,14 +2,9 @@
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'ap/vim-css-color'
 Plugin 'tomasr/molokai'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Chiel92/vim-autoformat'
-Plugin 'mattn/emmet-vim'
-Plugin 'asins/vimcdoc'
-Plugin 'wincent/command-t'
 
 call vundle#end()
 filetype plugin indent on  
@@ -39,27 +34,8 @@ set matchpairs=(:),[:],{:},<:>
 set smartindent
 set ruler
 set wrap
+set encoding=utf-8
 
 filetype off
 syntax enable
 colorscheme molokai
-
-"Emmet Config
-let g:user_emmet_mode='a'
-let g:user_emmet_leader_key = '<Tab>'
-
-"NERDTree Config
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif "Auto Start NERDTree 
-map <C-T> :NERDTree<CR>
-
-"Help Doc
-let helptags=$VIM."/vimfiles/doc"
-set helplang=cn
-
-"Shortcut
-let mapleader = "`"
-noremap <C-Z> u
-noremap <C-Y> <C-R>
-noremap <C-C> y
-noremap <Leader>w :w<CR>
-noremap <Leader>q :q<CR>
