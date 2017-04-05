@@ -56,6 +56,8 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'JulesWang/css.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'mxw/vim-jsx'
+
 call vundle#end()
 filetype plugin indent on
 filetype off
