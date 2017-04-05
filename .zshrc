@@ -1,5 +1,6 @@
+eval "$(rbenv init -)"
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/lee/.oh-my-zsh
+export ZSH=/Users/leeyunfan/.oh-my-zsh
 
 # Set name of the theme to load.
 # Look in ~/.oh-my-zsh/themes/
@@ -54,6 +55,12 @@ plugins=(git autojump)
 # User configuration
 
 export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
+export GOROOT="/usr/local/Cellar/go/1.7.1/libexec"
+export GOPATH=$HOME/workspace/code/go
+export GOBIN=$GOROOT/bin
+export GOOS="darwin"
+
+export PATH=$GOROOT:$GOPATH/bin:$GOBIN:$PATH
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
