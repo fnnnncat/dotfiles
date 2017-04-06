@@ -59,12 +59,19 @@ Plugin 'Raimondi/delimitMate'
 Plugin 'pangloss/vim-javascript'
 Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'marijnh/tern_for_vim'
+Plugin 'mxw/vim-jsx'
+Plugin 'isRuslan/vim-es6'
+Plugin 'ap/vim-css-color'
 
 call vundle#end()
 filetype plugin indent on
 filetype off
 
 let mapleader=';'
+
+"YCM
+let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
 
 "NERDTree
 autocmd StdinReadPre * let s:std_in=1
@@ -102,7 +109,10 @@ let g:NERDTrimTrailingWhitespace = 1
 "vim-javascript
 let javascript_enable_domhtmlcss = 1
 
+"vim-jsx
+let g:jsx_ext_required = 0
 
-
-
+"scss-syntax
+autocmd FileType scss set iskeyword+=-
+autocmd BufRead,BufNewFile *.scss set filetype=scss.css
 
