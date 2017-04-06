@@ -16,16 +16,17 @@ set expandtab
 set nospell
 set showmatch
 set foldenable
-set foldmethod=indent
+"set foldmethod=indent
 set cmdheight=1
 set laststatus=2
 set backupext=.bak
 set ambiwidth=double        
-set nobomb  
+set nobomb
 set fileformat=unix
 set fileformats=unix,dos,mac
 set fileencoding=utf-8      
-set guifont=Monaco:h18
+"set guifont=Monaco:h18
+set guifont=Source_Code_Pro_for_Powerline:h18
 set iskeyword+=_,$,@,%,#,-
 set pastetoggle=<leader>to
 set matchpairs=(:),{:},[:],<:>
@@ -44,18 +45,16 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-markdown'
 Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'vim-airline/vim-airline'
-Plugin 'vim-airline/vim-airline-themes'
-Plugin 'jdkanani/vim-material-theme'
 Plugin 'tomasr/molokai'
 Plugin 'scrooloose/nerdcommenter'
-Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'JulesWang/css.vim'
 Plugin 'Valloric/YouCompleteMe'
+
 call vundle#end()
 filetype plugin indent on
 filetype off
@@ -81,4 +80,3 @@ let g:ctrlp_custom_ignore = 'node_modules'
 
 "Airline
 let g:airline#extensions#tabline#enabled = 1
-
