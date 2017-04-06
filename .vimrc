@@ -45,6 +45,8 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'kien/ctrlp.vim'
+Plugin 'tomasr/molokai'
 Plugin 'tpope/vim-markdown'
 Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
@@ -78,4 +80,3 @@ let g:ctrlp_custom_ignore = 'node_modules'
 
 "Airline
 let g:airline#extensions#tabline#enabled = 1
-
