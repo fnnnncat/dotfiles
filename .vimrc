@@ -44,6 +44,7 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mattn/emmet-vim'
 Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
@@ -61,7 +62,13 @@ Plugin 'marijnh/tern_for_vim'
 Plugin 'mxw/vim-jsx'
 Plugin 'isRuslan/vim-es6'
 Plugin 'ap/vim-css-color'
-"Plugin 'airblade/vim-gitgutter'
+Plugin 'airblade/vim-gitgutter'
+Plugin 'Chiel92/vim-autoformat'
+Plugin 'easymotion/vim-easymotion'
+Plugin 'terryma/vim-multiple-cursors'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'tpope/vim-markdown'
 
 call vundle#end()
 filetype plugin indent on
@@ -115,4 +122,25 @@ let g:jsx_ext_required = 0
 "scss-syntax
 autocmd FileType scss set iskeyword+=-
 autocmd BufRead,BufNewFile *.scss set filetype=scss.css
+
+"easymotion
+let g:EasyMotion_smartcase = 1
+map <Leader><leader>h <Plug>(easymotion-linebackward)
+map <Leader><Leader>j <Plug>(easymotion-j)
+map <Leader><Leader>k <Plug>(easymotion-k)
+map <Leader><leader>l <Plug>(easymotion-lineforward)
+map <Leader><leader>. <Plug>(easymotion-repeat)
+
+"vim-multiple-cursors
+let g:multi_cursor_use_default_mapping=0
+let g:multi_cursor_next_key='<C-n>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
+"repeat
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+
+"markdown
+autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh']
 
