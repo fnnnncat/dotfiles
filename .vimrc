@@ -1,4 +1,5 @@
 set nocompatible
+set noswapfile
 set shell=/bin/zsh
 set hlsearch
 set incsearch
@@ -22,7 +23,6 @@ set laststatus=2
 set backupext=.bak
 set ambiwidth=double        
 set nobomb
-set fileformat=unix
 set fileformats=unix,dos,mac
 set fileencoding=utf-8      
 set guifont=Source_Code_Pro_for_Powerline:h18
@@ -69,6 +69,7 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-markdown'
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 filetype plugin indent on
@@ -160,4 +161,9 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 "markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh']
+
+
+
+
+
 
