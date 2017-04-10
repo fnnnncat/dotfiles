@@ -34,7 +34,7 @@ set shell=sh
 set selection=inclusive
 
 if has("gui_running")
-  set guioptions-=L       
+  set guioptions-=l       
   set guioptions-=r       
   set guioptions-=b      
 endif
