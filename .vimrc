@@ -28,14 +28,14 @@ set fileencoding=utf-8
 set guifont=Source_Code_Pro_for_Powerline:h18
 set iskeyword+=_,$,@,%,#,-
 set pastetoggle=
-set matchpairs=(:),{:},[:],<:>
+set matchpairs=(:),{:},[:]
 set relativenumber
 set shell=sh
 set selection=inclusive
 
 if has("gui_running")
-  set guioptions-=l       
-  set guioptions-=r       
+  set guioptions-=L       
+  set guioptions-=r      
   set guioptions-=b      
 endif
 
@@ -70,10 +70,11 @@ Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-markdown'
 Plugin 'fatih/vim-go'
+Plugin 'rking/ag.vim'
 
 call vundle#end()
 filetype plugin indent on
-filetype off
+"filetype off
 
 let mapleader=';'
 
@@ -92,6 +93,11 @@ let g:user_emmet_mode='a'
 let g:user_emmet_expandabbr_key = '<Tab>'
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
+let g:user_emmet_settings = {
+\  'javascript.jsx' : {
+\      'extends' : 'jsx',
+\  },
+\}
 "theme
 syntax enable
 color molokai
@@ -132,7 +138,7 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
 "vim-javascript
-let javascript_enable_domhtmlcss = 1
+"let javascript_enable_domhtmlcss = 1
 
 "vim-jsx
 let g:jsx_ext_required = 0
@@ -162,8 +168,6 @@ silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh']
 
-
-
-
-
+"ag
+let g:ag_working_path_mode="r"
 
