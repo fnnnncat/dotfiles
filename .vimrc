@@ -12,6 +12,7 @@ set autoindent
 set smartindent
 set linespace=2
 set shiftwidth=2
+autocmd BufRead,BufNewFile,BufWrite *.conf  set shiftwidth=4
 set softtabstop=2
 set cursorline
 set expandtab
@@ -32,6 +33,7 @@ set matchpairs=(:),{:},[:]
 set relativenumber
 set shell=sh
 set selection=inclusive
+set mouse=a
 
 if has("gui_running")
   set guioptions-=L       
@@ -78,6 +80,11 @@ filetype plugin indent on
 
 let mapleader=';'
 
+"shortcut
+map <Esc><Esc> <Esc>:w<CR>
+map <Tab> V>
+map <S-Tab> V<
+
 "YCM
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
@@ -85,19 +92,22 @@ let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 "nerdtree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-let g:NERDTreeDirArrowExpandable = '▸'
-let g:NERDTreeDirArrowCollapsible = '▾'
 
 "emmet
+let g:user_emmet_install_global = 0
+autocmd FileType javascript,javascript.jsx,html call EmmetConfig()
 let g:user_emmet_mode='a'
 let g:user_emmet_expandabbr_key = '<Tab>'
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
-
+function EmmetConfig()
+  EmmetInstall
+  imap <expr><tab> emmet#expandAbbrIntelligent("\<tab>")
+endfunction
 let g:user_emmet_settings = {
 \  'javascript.jsx' : {
 \      'extends' : 'jsx',
 \  },
 \}
+
 "theme
 syntax enable
 color molokai
@@ -137,9 +147,6 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
-"vim-javascript
-"let javascript_enable_domhtmlcss = 1
-
 "vim-jsx
 let g:jsx_ext_required = 0
 
@@ -170,4 +177,5 @@ let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh
 
 "ag
 let g:ag_working_path_mode="r"
+
 
