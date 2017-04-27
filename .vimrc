@@ -1,6 +1,5 @@
 set nocompatible
 set noswapfile
-set shell=/bin/zsh
 set hlsearch
 set incsearch
 set ruler
@@ -11,11 +10,12 @@ set autoread
 set autoindent
 set smartindent
 set linespace=2
+set expandtab
+set tabstop=2
 set shiftwidth=2
 autocmd BufRead,BufNewFile,BufWrite *.conf  set shiftwidth=4
 set softtabstop=2
 set cursorline
-set expandtab
 set nospell
 set showmatch
 set foldenable
@@ -54,19 +54,11 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomasr/molokai'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'hail2u/vim-css3-syntax'
-Plugin 'JulesWang/css.vim'
-Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'Raimondi/delimitMate'
-Plugin 'pangloss/vim-javascript'
-Plugin 'nathanaelkane/vim-indent-guides'
 Plugin 'marijnh/tern_for_vim'
-Plugin 'mxw/vim-jsx'
-Plugin 'isRuslan/vim-es6'
 Plugin 'ap/vim-css-color'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Chiel92/vim-autoformat'
-Plugin 'easymotion/vim-easymotion'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
@@ -76,6 +68,12 @@ Plugin 'rking/ag.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 Plugin 'editorconfig/editorconfig-vim'
+Plugin 'heavenshell/vim-jsdoc'
+Plugin 'pangloss/vim-javascript'
+Plugin 'mxw/vim-jsx'
+Plugin 'justinj/vim-react-snippets'
+Plugin 'hail2u/vim-css3-syntax'
+Plugin 'cakebaker/scss-syntax.vim'
 
 call vundle#end()
 filetype plugin indent on
@@ -87,6 +85,12 @@ let mapleader=';'
 nnoremap <Esc><Esc> <Esc>:w<CR>
 nnoremap <Tab> V>
 nnoremap <S-Tab> V<
+
+" vim-autoformat
+let g:autoformat_autoindent = 1
+let g:autoformat_retab = 1
+let g:autoformat_remove_trailing_spaces = 1
+noremap <F3> :Autoformat<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
@@ -117,15 +121,15 @@ let g:user_emmet_expandabbr_key = '<Tab>'
 let g:user_emmet_settings = {'javascript.jsx': {'extends': 'jsx'}}
 imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
-"theme
+" theme
 syntax enable
 color molokai
 
-"ctrlp
+" ctrlp
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = 'node_modules'
 
-"airline
+" airline
 let g:airline_theme='molokai'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled=1
@@ -138,47 +142,42 @@ nnoremap <Leader>f :bn<CR>
 nnoremap <Leader>d :bdelete<CR>
 nnoremap <Leader>l :ls<CR>
 
-"nerdcommenter
+" nerdcommenter
 let g:NERDSpaceDelims = 1
 let g:NERDCompactSexyComs = 1
 let g:NERDDefaultAlign = 'left'
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
-"vim-jsx
+" vim-jsx
 let g:jsx_ext_required = 0
 
-"scss-syntax
+" scss-syntax
 autocmd FileType scss set iskeyword+=-
 autocmd BufRead,BufNewFile *.scss set filetype=scss.css
 
-"easymotion
-let g:EasyMotion_smartcase = 1
-map <Leader><leader>h <Plug>(easymotion-linebackward)
-map <Leader><Leader>j <Plug>(easymotion-j)
-map <Leader><Leader>k <Plug>(easymotion-k)
-map <Leader><leader>l <Plug>(easymotion-lineforward)
-map <Leader><leader>. <Plug>(easymotion-repeat)
-
-"vim-multiple-cursors
+" vim-multiple-cursors
 let g:multi_cursor_use_default_mapping=0
 let g:multi_cursor_next_key='<C-n>'
 let g:multi_cursor_skip_key='<C-x>'
 let g:multi_cursor_quit_key='<Esc>'
 
-"repeat
+" repeat
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-"markdown
+" markdown
 autocmd BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh']
 
-"ag
+" ag
 let g:ag_working_path_mode="r"
 
 " repeat
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-"tagbar
+" tagbar
 nmap <F8> :TagbarToggle<CR>
+
+" jsdoc
+nmap <silent> <C-l> <Plug>(jsdoc)
 
