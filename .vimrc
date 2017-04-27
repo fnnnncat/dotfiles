@@ -22,10 +22,10 @@ set foldenable
 set cmdheight=1
 set laststatus=2
 set backupext=.bak
-set ambiwidth=double        
+set ambiwidth=double
 set nobomb
 set fileformats=unix,dos,mac
-set fileencoding=utf-8      
+set fileencoding=utf-8
 set guifont=Source_Code_Pro_for_Powerline:h18
 set iskeyword+=_,$,@,%,#,-
 set pastetoggle=
@@ -36,9 +36,9 @@ set selection=inclusive
 set mouse=a
 
 if has("gui_running")
-  set guioptions-=L       
-  set guioptions-=r      
-  set guioptions-=b      
+  set guioptions-=L
+  set guioptions-=r
+  set guioptions-=b
 endif
 
 set rtp+=~/.vim/bundle/Vundle.vim
@@ -54,7 +54,7 @@ Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomasr/molokai'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'hail2u/vim-css3-syntax'     
+Plugin 'hail2u/vim-css3-syntax'
 Plugin 'JulesWang/css.vim'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'Raimondi/delimitMate'
@@ -73,40 +73,49 @@ Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-markdown'
 Plugin 'fatih/vim-go'
 Plugin 'rking/ag.vim'
+Plugin 'majutsushi/tagbar'
+Plugin 'scrooloose/syntastic'
+Plugin 'editorconfig/editorconfig-vim'
 
 call vundle#end()
 filetype plugin indent on
-"filetype off
+" filetype off
 
 let mapleader=';'
 
-"shortcut
-map <Esc><Esc> <Esc>:w<CR>
-map <Tab> V>
-map <S-Tab> V<
+" shortcut
+nnoremap <Esc><Esc> <Esc>:w<CR>
+nnoremap <Tab> V>
+nnoremap <S-Tab> V<
 
-"YCM
+" syntastic
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 1
+let g:syntastic_javascript_checkers = ['eslint']
+let g:syntastic_javascript_eslint_exec = 'eslint'
+
+" YCM
 let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
 
-"nerdtree
+" nerdtree
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+nnoremap <F5> <ESC>:NERDTreeToggle<CR>
+imap <F5> <ESC>:NERDTreeToggle<CR>
 
-"emmet
+" emmet
+autocmd FileType html,jsx EmmetInstall
 let g:user_emmet_install_global = 0
-autocmd FileType javascript,javascript.jsx,html call EmmetConfig()
 let g:user_emmet_mode='a'
 let g:user_emmet_expandabbr_key = '<Tab>'
-function EmmetConfig()
-  EmmetInstall
-  imap <expr><tab> emmet#expandAbbrIntelligent("\<tab>")
-endfunction
-let g:user_emmet_settings = {
-\  'javascript.jsx' : {
-\      'extends' : 'jsx',
-\  },
-\}
+let g:user_emmet_settings = {'javascript.jsx': {'extends': 'jsx'}}
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 "theme
 syntax enable
@@ -118,7 +127,7 @@ let g:ctrlp_custom_ignore = 'node_modules'
 
 "airline
 let g:airline_theme='molokai'
-let g:airline_powerline_fonts = 1   
+let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
@@ -128,17 +137,6 @@ nnoremap <Leader>b :bp<CR>
 nnoremap <Leader>f :bn<CR>
 nnoremap <Leader>d :bdelete<CR>
 nnoremap <Leader>l :ls<CR>
-
-nnoremap <Leader>1 :1b<CR>
-nnoremap <Leader>2 :2b<CR>
-nnoremap <Leader>3 :3b<CR>
-nnoremap <Leader>4 :4b<CR>
-nnoremap <Leader>5 :5b<CR>
-nnoremap <Leader>6 :6b<CR>
-nnoremap <Leader>7 :7b<CR>
-nnoremap <Leader>8 :8b<CR>
-nnoremap <Leader>9 :9b<CR>
-nnoremap <Leader>0 :10b<CR>
 
 "nerdcommenter
 let g:NERDSpaceDelims = 1
@@ -178,4 +176,9 @@ let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh
 "ag
 let g:ag_working_path_mode="r"
 
+" repeat
+silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
+
+"tagbar
+nmap <F8> :TagbarToggle<CR>
 
