@@ -81,7 +81,7 @@ filetype plugin indent on
 let mapleader=';'
 
 "shortcut
-map <Esc><Esc> <Esc>:w<CR>
+map <Esc><Esc> <Esc>:checktime<CR>:w<CR>
 map <Tab> V>
 map <S-Tab> V<
 
