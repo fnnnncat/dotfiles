@@ -73,6 +73,7 @@ Plugin 'mxw/vim-jsx'
 Plugin 'justinj/vim-react-snippets'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'yggdroot/indentline'
 
 call vundle#end()
 filetype plugin indent on
@@ -179,4 +180,8 @@ nmap <F8> :TagbarToggle<CR>
 
 " jsdoc
 nmap <silent> <C-l> <Plug>(jsdoc)
+
+" identline
+let g:indentLine_char = '|'
+let g:indentLine_enabled = 1
 
