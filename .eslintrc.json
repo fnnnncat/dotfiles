@@ -1,36 +1,37 @@
 {
-  "extends": "eslint:recommended",
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ],
   "parser": "babel-eslint",
+
   "env": {
     "browser": true,
-    "commonjs": true,
-    "es6": true,
-    "jquery": true,
     "node": true
   },
-  "settings":{
-    "react":{
-      "pragma":"React",
-      "version":"15.5.3"
-    },
-    "ecmascript":6,
-    "jsx":true
+  "settings": {
+    "ecmascript": 6,
+    "jsx": true,
+    "react": {
+      "createClass": "createReactClass",
+      "pragma": "React"
+    }
   },
-  "ecmaVersion": 6,
   "plugins": [
     "react"
   ],
+  "ecmaVersion": 6,
   "parserOptions": {
     "sourceType": "module",
     "ecmaFeatures": {
-      "impliedStrict": true,
       "jsx": true
     }
   },
   "rules": {
     "no-console": 0,
-    "semi": 0,
+    "react/prop-types": 0,
 
+    "semi": ["error", "never"],
     "max-params": ["error", {"max": 3}],
     "no-eval": 2,
     "no-loop-func": 2,
@@ -41,7 +42,9 @@
     "new-cap": 2,
     "dot-notation": 2,
     "curly": 2,
-    "indent": ["error", 2],
+    "indent": ["error", 2, {
+      "SwitchCase": 1
+    }],
     "quotes": ["error", "single"],
     "newline-after-var": ["error", "always"],
 
