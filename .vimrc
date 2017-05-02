@@ -128,6 +128,8 @@ color molokai
 " ctrlp
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 let g:ctrlp_custom_ignore = 'node_modules'
+let g:ctrlp_follow_symlinks = 2
+
 
 " airline
 let g:airline_theme='molokai'
