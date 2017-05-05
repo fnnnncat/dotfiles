@@ -78,7 +78,7 @@ Plugin 'shougo/vimproc.vim'
 Plugin 'shougo/neomru.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'heavenshell/vim-jsdoc'
-Plugin 'gcorne/vim-sass-lint'
+Plugin 'stephpy/vim-yaml'
 
 call vundle#end()
 filetype plugin indent on
@@ -109,8 +109,6 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint'
-let g:syntastic_sass_checkers=["sasslint"]
-let g:syntastic_scss_checkers=["sasslint"]
 
 " ycm
 let g:ycm_key_list_select_completion = ['<C-n>', '<c-j>']
@@ -122,12 +120,12 @@ autocmd vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 nmap <F5> :NERDTreeToggle<CR>
 
 " emmet
-autocmd FileType html,jsx EmmetInstall
+autocmd FileType html,jsx,javascript.jsx EmmetInstall
 let g:user_emmet_install_global = 0
 let g:user_emmet_mode='a'
 let g:user_emmet_expandabbr_key = '<Tab>'
 let g:user_emmet_settings = {'javascript.jsx': {'extends': 'jsx'}}
-imap <EXPR> <TAB> emmet#expandAbbrIntelligent("\<TAB>")
+imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " theme
 syntax enable
@@ -182,6 +180,11 @@ let g:indentLine_char = '|'
 let g:indentLine_enabled = 1
 
 "unite
-nmap <C-p> :Unite -toggle -auto-resize -start-insert -buffer-name=mixed buffer file_mru file_rec/async bookmark<CR>
+nmap <C-p> :Unite -toggle -auto-resize -buffer-name=mixed buffer file_rec/async bookmark<CR>
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate','ignore_pattern', 'node_modules')
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'max_candidates', 99999)
+inoremap <silent><expr> <C-s> unite#do_action('split')
+inoremap <silent><expr> <C-v> unite#do_action('vsplit')
+nnoremap <silent><expr> <C-v> unite#do_action('vsplit')
+nnoremap <silent><expr> <C-s> unite#do_action('split')
+
