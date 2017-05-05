@@ -4,7 +4,7 @@ set hlsearch
 set incsearch
 set ruler
 set number
-set history=50
+set history=100
 set showcmd
 set autoread
 set autoindent
@@ -25,7 +25,9 @@ set backupext=.bak
 set ambiwidth=double
 set nobomb
 set fileformats=unix,dos,mac
-set fileencoding=utf-8
+set fenc=utf-8
+set fencs=utf-8
+set tenc=utf-8
 set guifont=Source_Code_Pro_for_Powerline:h18
 set iskeyword+=_,$,@,%,#,-
 set pastetoggle=
@@ -46,9 +48,8 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'Xuyuanp/nerdtree-git-Plugin'
 Plugin 'mattn/emmet-vim'
-Plugin 'kien/ctrlp.vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
 Plugin 'tomasr/molokai'
@@ -67,34 +68,40 @@ Plugin 'rking/ag.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 Plugin 'editorconfig/editorconfig-vim'
-Plugin 'heavenshell/vim-jsdoc'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
 Plugin 'justinj/vim-react-snippets'
 Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
-Plugin 'yggdroot/indentline'
+Plugin 'shougo/unite.vim'
+Plugin 'shougo/vimproc.vim'
+Plugin 'shougo/neomru.vim'
+Plugin 'tpope/vim-fugitive'
+Plugin 'heavenshell/vim-jsdoc'
+Plugin 'gcorne/vim-sass-lint'
 
 call vundle#end()
 filetype plugin indent on
-" filetype off
 
 let mapleader=';'
 
 " shortcut
-nnoremap <Esc><Esc> <Esc>:w<CR>
-nnoremap <Tab> V>
-nnoremap <S-Tab> V<
+nmap <ESC><ESC> :w<CR>
+nmap <tab> v>
+nmap <s-tab> v<
+nmap <silent> <LEFT> :bp<CR>
+nmap <silent> <RIGHT> :bn<CR>
+nmap <silent> <F2> :bdelete<CR>
 
 " vim-autoformat
 let g:autoformat_autoindent = 1
 let g:autoformat_retab = 1
 let g:autoformat_remove_trailing_spaces = 1
-noremap <F3> :Autoformat<CR>
+nmap <F3> :Autoformat<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%{syntasticstatuslineflag()}
 set statusline+=%*
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
@@ -102,16 +109,17 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint'
+let g:syntastic_sass_checkers=["sasslint"]
+let g:syntastic_scss_checkers=["sasslint"]
 
-" YCM
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" ycm
+let g:ycm_key_list_select_completion = ['<C-n>', '<c-j>']
+let g:ycm_key_list_previous_completion = ['<c-p>', '<c-k>']
 
 " nerdtree
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-nnoremap <F5> <ESC>:NERDTreeToggle<CR>
-imap <F5> <ESC>:NERDTreeToggle<CR>
+autocmd stdinreadpre * let s:std_in=1
+autocmd vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+nmap <F5> :NERDTreeToggle<CR>
 
 " emmet
 autocmd FileType html,jsx EmmetInstall
@@ -119,17 +127,11 @@ let g:user_emmet_install_global = 0
 let g:user_emmet_mode='a'
 let g:user_emmet_expandabbr_key = '<Tab>'
 let g:user_emmet_settings = {'javascript.jsx': {'extends': 'jsx'}}
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
+imap <EXPR> <TAB> emmet#expandAbbrIntelligent("\<TAB>")
 
 " theme
 syntax enable
 color molokai
-
-" ctrlp
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
-let g:ctrlp_custom_ignore = 'node_modules'
-let g:ctrlp_follow_symlinks = 2
-
 
 " airline
 let g:airline_theme='molokai'
@@ -138,11 +140,6 @@ let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline#extensions#tabline#buffer_nr_show = 1
-
-nnoremap <Leader>b :bp<CR>
-nnoremap <Leader>f :bn<CR>
-nnoremap <Leader>d :bdelete<CR>
-nnoremap <Leader>l :ls<CR>
 
 " nerdcommenter
 let g:NERDSpaceDelims = 1
@@ -174,9 +171,6 @@ let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh
 " ag
 let g:ag_working_path_mode="r"
 
-" repeat
-silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
-
 " tagbar
 nmap <F8> :TagbarToggle<CR>
 
@@ -187,3 +181,7 @@ nmap <silent> <C-l> <Plug>(jsdoc)
 let g:indentLine_char = '|'
 let g:indentLine_enabled = 1
 
+"unite
+nmap <C-p> :Unite -toggle -auto-resize -start-insert -buffer-name=mixed buffer file_mru file_rec/async bookmark<CR>
+call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate','ignore_pattern', 'node_modules')
+call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'max_candidates', 99999)
