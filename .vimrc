@@ -13,7 +13,7 @@ set linespace=2
 set expandtab
 set tabstop=2
 set shiftwidth=2
-autocmd BufRead,BufNewFile,BufWrite *.conf  set shiftwidth=4
+au BufRead,BufNewFile,BufWrite *.conf  set shiftwidth=4
 set softtabstop=2
 set cursorline
 set nospell
@@ -36,6 +36,7 @@ set relativenumber
 set shell=sh
 set selection=inclusive
 set mouse=a
+set foldmethod=syntax
 
 if has("gui_running")
   set guioptions-=L
@@ -85,6 +86,9 @@ filetype plugin indent on
 
 let mapleader=';'
 
+" YCM
+let g:ycm_autoclose_preview_window_after_completion=1
+
 " shortcut
 nmap <ESC><ESC> :w<CR>
 nmap <tab> v>
@@ -94,9 +98,6 @@ nmap <silent> <RIGHT> :bn<CR>
 nmap <silent> <F2> :bdelete<CR>
 
 " vim-autoformat
-let g:autoformat_autoindent = 1
-let g:autoformat_retab = 1
-let g:autoformat_remove_trailing_spaces = 1
 nmap <F3> :Autoformat<CR>
 
 " syntastic
@@ -115,12 +116,12 @@ let g:ycm_key_list_select_completion = ['<C-n>', '<c-j>']
 let g:ycm_key_list_previous_completion = ['<c-p>', '<c-k>']
 
 " nerdtree
-autocmd stdinreadpre * let s:std_in=1
-autocmd vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+au stdinreadpre * let s:std_in=1
+au vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 nmap <F5> :NERDTreeToggle<CR>
 
 " emmet
-autocmd FileType html,jsx,javascript.jsx EmmetInstall
+au FileType html,jsx,javascript.jsx EmmetInstall
 let g:user_emmet_install_global = 0
 let g:user_emmet_mode='a'
 let g:user_emmet_expandabbr_key = '<Tab>'
@@ -150,8 +151,8 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:jsx_ext_required = 0
 
 " scss-syntax
-autocmd FileType scss set iskeyword+=-
-autocmd BufRead,BufNewFile *.scss set filetype=scss.css
+au FileType scss set iskeyword+=-
+au BufRead,BufNewFile *.scss set filetype=scss.css
 
 " vim-multiple-cursors
 let g:multi_cursor_use_default_mapping=0
@@ -163,7 +164,7 @@ let g:multi_cursor_quit_key='<Esc>'
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
 " markdown
-autocmd BufNewFile,BufReadPost *.md set filetype=markdown
+au BufNewFile,BufReadPost *.md set filetype=markdown
 let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh']
 
 " ag
@@ -179,12 +180,11 @@ nmap <silent> <C-l> <Plug>(jsdoc)
 let g:indentLine_char = '|'
 let g:indentLine_enabled = 1
 
-"unite
+" unite
 nmap <C-p> :Unite -toggle -auto-resize -buffer-name=mixed buffer file_rec/async bookmark<CR>
-call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate','ignore_pattern', 'node_modules')
+call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'ignore_globs', ['node_modules/', 'output/'])
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'max_candidates', 99999)
-inoremap <silent><expr> <C-s> unite#do_action('split')
-inoremap <silent><expr> <C-v> unite#do_action('vsplit')
-nnoremap <silent><expr> <C-v> unite#do_action('vsplit')
-nnoremap <silent><expr> <C-s> unite#do_action('split')
+
+" image
+au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
 
