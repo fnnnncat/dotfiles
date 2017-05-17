@@ -37,6 +37,7 @@ set shell=sh
 set selection=inclusive
 set mouse=a
 set foldmethod=syntax
+set foldlevelstart=1
 
 if has("gui_running")
   set guioptions-=L
@@ -175,10 +176,6 @@ nmap <F8> :TagbarToggle<CR>
 
 " jsdoc
 nmap <silent> <C-l> <Plug>(jsdoc)
-
-" identline
-let g:indentLine_char = '|'
-let g:indentLine_enabled = 1
 
 " unite
 nmap <C-p> :Unite -toggle -auto-resize -buffer-name=mixed buffer file_rec/async bookmark<CR>
