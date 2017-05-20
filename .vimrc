@@ -94,9 +94,8 @@ let g:ycm_autoclose_preview_window_after_completion=1
 nmap <ESC><ESC> :w<CR>
 nmap <tab> v>
 nmap <s-tab> v<
-nmap <silent> <LEFT> :bp<CR>
-nmap <silent> <RIGHT> :bn<CR>
-nmap <silent> <F2> :bdelete<CR>
+nmap <silent> <LEFT> :tabprevious<CR>
+nmap <silent> <RIGHT> :tabnext<CR>
 
 " vim-autoformat
 nmap <F3> :Autoformat<CR>
