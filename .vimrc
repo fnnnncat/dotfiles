@@ -81,6 +81,7 @@ Plugin 'shougo/neomru.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'stephpy/vim-yaml'
+Plugin 'junegunn/vim-emoji'
 
 call vundle#end()
 filetype plugin indent on
@@ -89,6 +90,12 @@ let mapleader=';'
 
 " YCM
 let g:ycm_autoclose_preview_window_after_completion=1
+
+" gitgutter
+let g:gitgutter_sign_added = emoji#for('shit')
+let g:gitgutter_sign_modified = emoji#for('imp')
+let g:gitgutter_sign_removed = emoji#for('fearful')
+let g:gitgutter_sign_modified_removed = emoji#for('new_moon_with_face')
 
 " shortcut
 nmap <ESC><ESC> :w<CR>
