@@ -127,6 +127,19 @@ au stdinreadpre * let s:std_in=1
 au vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 nmap <F5> :NERDTreeToggle<CR>
 
+let g:NERDTreeIndicatorMapCustom = {
+    \ "Modified"  : "✹",
+    \ "Staged"    : "✚",
+    \ "Untracked" : "✭",
+    \ "Renamed"   : "➜",
+    \ "Unmerged"  : "═",
+    \ "Deleted"   : "✖",
+    \ "Dirty"     : "✗",
+    \ "Clean"     : "✔︎",
+    \ 'Ignored'   : '☒',
+    \ "Unknown"   : "?"
+    \ }
+
 " emmet
 au FileType html,jsx,javascript.jsx EmmetInstall
 let g:user_emmet_install_global = 0
