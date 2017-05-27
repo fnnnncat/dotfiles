@@ -21,6 +21,10 @@
 			  hungry-delete
 			  swiper
 			  counsel
+			  neotree
+			  react-snippets
+			  multiple-cursors
+			  projectile
 			  ) "Default Packages")
 
 (setq package-selected-packages faaaar/packages)
@@ -57,6 +61,12 @@
 (global-set-key (kbd "C-h C-c") 'find-variable)
 (global-set-key (kbd "C-h C-k") 'find-function-on-key)
 
+;; snippets
+(require 'react-snippets)
+
+;; neotree
+(require 'neotree)
+
 ;; add some hook
 (add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
 
@@ -79,8 +89,16 @@
 (global-set-key (kbd "<f6>") 'ivy-resume)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-r") 'counsel-recentf)
 (global-set-key (kbd "C-h f") 'counsel-describe-function)
 (global-set-key (kbd "C-h v") 'counsel-describe-variable)
+
+;; multiple-cursors config
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; smartparens config
 (require 'smartparens-config)
