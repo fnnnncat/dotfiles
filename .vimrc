@@ -39,7 +39,7 @@ set mouse=a
 set foldmethod=syntax
 set foldlevelstart=1
 
-if has("gui_running")
+  if has("gui_running")
   set guioptions-=L
   set guioptions-=r
   set guioptions-=b
@@ -203,4 +203,3 @@ call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 
 
 " image
 au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
-

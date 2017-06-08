@@ -2,3 +2,5 @@
 .emacs.d/elpa/*
 .emacs.d/recentf
 .emacs.d/.mc-lists.el
+.emacs.d/lisp/init-config.el
+.emacs.d/auto-save-list/*
