@@ -28,5 +28,6 @@
 (global-set-key (kbd "<f2>") 'open-my-init-file)
 (global-set-key (kbd "<f3>") 'open-my-list-file)
 (global-set-key (kbd "<f10>") 'open-my-org-file)
+(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
 
 (provide 'init-keybinding)

@@ -34,6 +34,8 @@
 (prefer-coding-system 'utf-8)
 ;; write file encode
 (setq default-buffer-file-coding-system 'utf-8)
+;; use y or n instead of yes or not
+(fset 'yes-or-no-p 'y-or-n-p)
 
 ;; export config
 (provide 'init-base)
