@@ -1,22 +1,19 @@
-;; install && manage package
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives '("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/") t)
   (add-to-list 'package-archives '("melpa" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/melpa/") t)
   (add-to-list 'load-path "~/.emacs.d/lisp/"))
 
-(require 'cl)
 (defvar faaaar/packages '(
+			  solarized-theme
 			  exec-path-from-shell
-			  js2-mode
 			  smartparens
 			  company
-			  monokai-theme
 			  hungry-delete
 			  swiper
 			  counsel
 			  multiple-cursors
-			  org-wunderlist
+			  expand-region
 			  ) "Default Packages")
 
 (setq package-selected-packages faaaar/packages)
@@ -60,18 +57,16 @@
 (add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
 
 ;; exec-path-from-shell
-(require 'exec-path-from-shell) 
+(require 'exec-path-from-shell)
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
-
-;; js2-mode config
-(setq auto-mode-alist
-      (append
-       '(("\\.js\\'" . js2-mode))
-       auto-mode-alist))
 
 ;; company-mode
 (global-company-mode)
 
+;; expand-region
+(global-set-key (kbd "C-=") 'er/expand-region)
+
 ;; export config
 (provide 'init-package)
+
