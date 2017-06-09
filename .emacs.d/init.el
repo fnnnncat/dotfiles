@@ -11,7 +11,6 @@
 (require 'init-base)
 (require 'init-org)
 (require 'init-func)
-(require 'init-keybinding)
 (require 'init-ui)
 
 (custom-set-variables
