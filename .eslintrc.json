@@ -1,4 +1,7 @@
 {
+  "globals": {
+    "Logger": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended"
@@ -7,10 +10,11 @@
 
   "env": {
     "browser": true,
-    "node": true
+    "node": true,
+    "es6": true
   },
   "settings": {
-    "ecmascript": 6,
+    "ecmascript": 7,
     "jsx": true,
     "react": {
       "createClass": "createReactClass",
@@ -52,8 +56,8 @@
     "newline-before-return": 1,
     "spaced-comment": ["warn", "always"],
     "no-unused-vars": ["warn", {"vars": "all", "args": "after-used"}],
-    "array-bracket-spacing": ["warn", "never"],
-    "block-spacing": ["warn", "never"],
+    "array-bracket-spacing": ["warn", "always"],
+    "block-spacing": ["warn", "always"],
     "comma-spacing": ["warn", {"before": false, "after": true}],
     "keyword-spacing": ["warn", {"before": true, "after": true}],
     "brace-style": ["warn", "1tbs"],

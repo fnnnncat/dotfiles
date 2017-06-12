@@ -5,19 +5,34 @@
   (add-to-list 'load-path "~/.emacs.d/lisp/"))
 
 (defvar faaaar/packages '(
+                           helm
+                           helm-ag
+                           helm-projectile
+                           js2-mode
+                           rjsx-mode
+                           web-mode
+                           helm-themes
                            solarized-theme
+                           monokai-theme
                            exec-path-from-shell
                            smartparens
                            company
                            hungry-delete
-                           swiper
-                           counsel
                            multiple-cursors
                            expand-region
                            emmet-mode
-                           js2-mode
+                           smartparens
                            editorconfig
-                           web-mode
+                           use-package
+                           flycheck
+                           magit
+                           s
+                           async
+                           popup
+                           markdown-mode
+                           visual-regexp
+                           visual-regexp-steroids
+                           expand-region
                            ) "Default Packages")
 
 (setq package-selected-packages faaaar/packages)
@@ -38,15 +53,11 @@
 (global-set-key (kbd "C-h C-k") 'find-function-on-key)
 
 ;; org-mode
-(require 'org)
-(setq org-src-fontify-natively t)
-(global-set-key "\C-ca" 'org-agenda)
-
-;; recentf
-(require 'recentf)
-(recentf-mode 1)
-(setq recentf-max-menu-items 25)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+(use-package org
+  :ensure t
+  :config
+  (setq org-src-fontify-natively t)
+  (global-set-key "\C-ca" 'org-agenda))
 
 ;; hungry-delete
 (require 'hungry-delete)
@@ -59,20 +70,17 @@
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
 (global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
-;; ivy-mode
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-
 ;; smartparens-config
 (require 'smartparens-config)
 (smartparens-global-mode t)
 (add-hook 'emacs-lisp-mode-hook 'show-paren-mode)
 
 ;; exec-path-from-shell
-(require 'exec-path-from-shell)
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
+(use-package exec-path-from-shell
+  :ensure t
+  :config
+  (when (memq window-system '(mac ns))
+    (exec-path-from-shell-initialize)))
 
 ;; company-mode
 (global-company-mode)
@@ -80,39 +88,86 @@
 ;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
 
-;; swiper config
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "<f6>") 'ivy-resume)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-r") 'counsel-recentf)
-(global-set-key (kbd "C-h f") 'counsel-describe-function)
-(global-set-key (kbd "C-h v") 'counsel-describe-variable)
+;; helm
+(helm-mode 1)
+(global-set-key (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "C-x b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-b") 'helm-buffers-list)
+(global-set-key (kbd "C-x C-f") 'helm-find-files)
+(global-set-key (kbd "C-x C-r") 'helm-recentf)
+
+;; helm-projectile
+(global-set-key (kbd "C-x C-p") 'helm-projectile)
+
+;; helm-ag
+(global-set-key (kbd "C-s") 'helm-do-grep-ag)
 
 ;; js2-mode
-(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+(add-hook 'js-mode-hook 'js2-minor-mode)
+(setq js2-mode-show-parse-errors nil)
+(setq js2-mode-show-strict-warnings nil)
+(add-to-list 'auto-mode-alist '("render\\/.*\\.js\\'" . rjsx-mode))
+
+;; rjsx-mode
+(with-eval-after-load 'rjsx
+  (define-key rjsx-mode-map "<" nil)
+  (define-key rjsx-mode-map (kbd "C-d") nil))
 
 ;; emmet-mode
-(require 'emmet-mode)
-(add-hook 'web-mode-hook 'emmet-mode)
-(add-hook 'js2-jsx-mode 'emmet-mode)
-(add-hook 'css-mode-hook  'emmet-mode)
-(add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
-(setq emmet-move-cursor-between-quotes t)
-(setq emmet-expand-jsx-className? t)
-(setq emmet-self-closing-tag-style " /")
+(use-package emmet-mode
+  :config
+  (add-hook 'web-mode-hook 'emmet-mode)
+  (add-hook 'js2-mode 'emmet-mode)
+  (add-hook 'rjsx-mode 'emmet-mode)
+  (add-hook 'css-mode-hook  'emmet-mode)
+  (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
+  (setq emmet-move-cursor-between-quotes t)
+  (setq emmet-expand-jsx-className? t)
+  (setq emmet-self-closing-tag-style " /"))
 
 ;; editorconfig
-(require 'editorconfig)
-(editorconfig-mode 1)
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
 
 ;; web-mode
-(require 'web-mode)
-(add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (setq web-mode-engines-alist
+    '(("php" . "\\.phtml\\'")
+       ("php" . "\\.tpl\\'"))))
+
+;; flycheck
+(use-package flycheck
+  :ensure t
+  :config
+  (setq flycheck-disabled-checkers '(javascript-jshint))
+  (setq flycheck-checkers '(javascript-eslint))
+  (global-flycheck-mode))
+
+;; markdown-mode
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+          ("\\.md\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+;; visual-regexp(-steroids)
+(use-package visual-regexp
+  :ensure t
+  :config
+  (define-key global-map (kbd "C-c r") 'vr/replace)
+  (define-key global-map (kbd "C-c q") 'vr/query-replace)
+  ;; if you use multiple-cursors, this is for you:
+  (define-key global-map (kbd "C-c m") 'vr/mc-mark)
+  )
 
 ;; export config
 (provide 'init-package)
