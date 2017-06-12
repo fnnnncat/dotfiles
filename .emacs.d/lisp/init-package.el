@@ -8,6 +8,7 @@
                            helm
                            helm-ag
                            helm-projectile
+                           helm-company
                            js2-mode
                            rjsx-mode
                            web-mode
@@ -15,6 +16,7 @@
                            solarized-theme
                            monokai-theme
                            exec-path-from-shell
+                           swiper
                            smartparens
                            company
                            hungry-delete
@@ -58,6 +60,11 @@
   :config
   (setq org-src-fontify-natively t)
   (global-set-key "\C-ca" 'org-agenda))
+;; swiper
+(ivy-mode 1)
+(setq ivy-use-virtual-buffers t)
+(setq enable-recursive-minibuffers t)
+(global-set-key "\C-s" 'swiper)
 
 ;; hungry-delete
 (require 'hungry-delete)
@@ -84,6 +91,24 @@
 
 ;; company-mode
 (global-company-mode)
+(setq company-minimum-prefix-length 1)
+
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous))
+
+(setq hippie-expand-try-function-list '(try-expand-debbrev
+                                         try-expand-debbrev-all-buffers
+                                         try-expand-debbrev-from-kill
+                                         try-complete-file-name-partially
+                                         try-complete-file-name
+                                         try-expand-all-abbrevs
+                                         try-expand-list
+                                         try-expand-line
+                                         try-complete-lisp-symbol-partially
+                                         try-complete-lisp-symbol))
 
 ;; expand-region
 (global-set-key (kbd "C-=") 'er/expand-region)
@@ -99,8 +124,12 @@
 ;; helm-projectile
 (global-set-key (kbd "C-x C-p") 'helm-projectile)
 
-;; helm-ag
-(global-set-key (kbd "C-s") 'helm-do-grep-ag)
+;; helm-company
+(autoload 'helm-company "helm-company") ;; Not necessary if using ELPA package
+(eval-after-load 'company
+  '(progn
+     (define-key company-mode-map (kbd "C-:") 'helm-company)
+     (define-key company-active-map (kbd "C-:") 'helm-company)))
 
 ;; js2-mode
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
