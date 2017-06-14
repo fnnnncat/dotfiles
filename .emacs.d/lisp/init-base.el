@@ -8,6 +8,9 @@
 ;; 自动加载外部修改过的文件
 (global-auto-revert-mode 1)
 
+;; 设置缩进
+(setq tab-width 2)
+
 ;; 关闭自己生产的保存的文件
 (setq auto-save-default nil)
 
@@ -55,9 +58,9 @@
 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
   "Highlight enclosing parens."
   (cond ((looking-at-p "\\s(") (funcall fn))
-        (t (save-excursion
-             (ignore-errors (backward-up-list))
-             (funcall fn)))))
+    (t (save-excursion
+         (ignore-errors (backward-up-list))
+         (funcall fn)))))
 
 (provide 'init-base)
 ;;; init-base.el ends here

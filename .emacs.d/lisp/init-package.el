@@ -136,19 +136,19 @@
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
-(add-to-list 'auto-mode-alist '("render\\/.*\\.js\\'" . rjsx-mode))
+;; (add-to-list 'auto-mode-alist '("render\\/.*\\.js\\'" . rjsx-mode))
 
 ;; rjsx-mode
-(with-eval-after-load 'rjsx
-  (define-key rjsx-mode-map "<" nil)
-  (define-key rjsx-mode-map (kbd "C-d") nil))
+;; (with-eval-after-load 'rjsx
+;;   (define-key rjsx-mode-map "<" nil)
+;;   (define-key rjsx-mode-map (kbd "C-d") nil))
 
 ;; emmet-mode
 (use-package emmet-mode
   :config
   (add-hook 'web-mode-hook 'emmet-mode)
   (add-hook 'js2-mode 'emmet-mode)
-  (add-hook 'rjsx-mode 'emmet-mode)
+  ;; (add-hook 'rjsx-mode 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode)
   (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
   (setq emmet-move-cursor-between-quotes t)
