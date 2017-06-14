@@ -1,5 +1,3 @@
-;; function to open file quickly
-
 ;; 重新缩进当前buffer
 (defun indent-buffer()
   (interactive)
@@ -55,11 +53,9 @@
             (transpose-lines arg))
           (forward-line -1))
         (move-to-column column t)))))
-
 (defun move-text-down (arg)
   (interactive "*p")
   (move-text-internal arg))
-
 (defun move-text-up (arg)
   (interactive "*p")
   (move-text-internal (- arg)))
@@ -67,14 +63,4 @@
 (global-set-key (kbd "C-S-p") 'move-text-up)
 (global-set-key (kbd "C-S-n") 'move-text-down)
 
-;; JSX设置
-(define-derived-mode react-mode web-mode "React-IDE"
- "jsx-mode设置.")
-(add-hook 'react-mode-hook
-          '(lambda
-             ()
-             (web-mode-set-content-type "jsx")
-             (message "set web-mode-content-type %s" web-mode-content-type)))
-
-(add-to-list 'auto-mode-alist '("\\.js$" . react-mode))
 (provide 'init-func)

@@ -1,10 +1,3 @@
-;;; init-base --- 一些基础配置
-;;; Commentary:
-;; 只是一些基础配置
-;; 和插件什么的都没关系
-
-;;; Code:
-
 ;; 自动加载外部修改过的文件
 (global-auto-revert-mode 1)
 
@@ -51,9 +44,6 @@
 ;; 使用y或者n 而不是 yes或者no
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; 在emacs-lisp-mode下，添加'时不成对添加
-;; (sp-local-pair '(emacs-lisp-mode lisp-interaction-mode) "'" nil :actions nil)
-
 ;; 显示光标所在区域的两边的括号
 (define-advice show-paren-function (:around (fn) fix-show-paren-function)
   "Highlight enclosing parens."
@@ -61,6 +51,16 @@
     (t (save-excursion
          (ignore-errors (backward-up-list))
          (funcall fn)))))
+
+
+;; JSX设置
+(define-derived-mode react-mode web-mode "React-IDE" "jsx-mode设置.")
+(add-hook 'react-mode-hook
+  '(lambda
+     ()
+     (web-mode-set-content-type "jsx")
+     (message "set web-mode-content-type %s" web-mode-content-type)))
+(add-to-list 'auto-mode-alist '("\\.js$" . react-mode))
 
 (provide 'init-base)
 ;;; init-base.el ends here

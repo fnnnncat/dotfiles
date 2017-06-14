@@ -1,3 +1,4 @@
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives '("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/") t)
@@ -10,7 +11,6 @@
                            helm-projectile
                            helm-company
                            js2-mode
-                           rjsx-mode
                            web-mode
                            helm-themes
                            solarized-theme
@@ -28,13 +28,12 @@
                            use-package
                            flycheck
                            magit
-                           s
                            async
-                           popup
                            markdown-mode
-                           visual-regexp
-                           visual-regexp-steroids
-                           expand-region
+                           neotree
+                           undo-tree
+                           rainbow-delimiters
+                           powerline
                            ) "Default Packages")
 
 (setq package-selected-packages faaaar/packages)
@@ -111,7 +110,10 @@
                                          try-complete-lisp-symbol))
 
 ;; expand-region
-(global-set-key (kbd "C-=") 'er/expand-region)
+(require 'expand-region)
+(global-set-key (kbd "C-c C-s") 'er/mark-symbol)
+(global-set-key (kbd "C-c C-i") 'er/mark-inside-quotes)
+(global-set-key (kbd "C-c C-o") 'er/mark-outside-quotes)
 
 ;; helm
 (helm-mode 1)
@@ -136,19 +138,12 @@
 (add-hook 'js-mode-hook 'js2-minor-mode)
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
-;; (add-to-list 'auto-mode-alist '("render\\/.*\\.js\\'" . rjsx-mode))
-
-;; rjsx-mode
-;; (with-eval-after-load 'rjsx
-;;   (define-key rjsx-mode-map "<" nil)
-;;   (define-key rjsx-mode-map (kbd "C-d") nil))
 
 ;; emmet-mode
 (use-package emmet-mode
   :config
   (add-hook 'web-mode-hook 'emmet-mode)
   (add-hook 'js2-mode 'emmet-mode)
-  ;; (add-hook 'rjsx-mode 'emmet-mode)
   (add-hook 'css-mode-hook  'emmet-mode)
   (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2)))
   (setq emmet-move-cursor-between-quotes t)
@@ -197,6 +192,23 @@
   ;; if you use multiple-cursors, this is for you:
   (define-key global-map (kbd "C-c m") 'vr/mc-mark)
   )
+
+;; neotree
+(use-package neotree
+  :config
+  (global-set-key [f5] 'neotree-toggle))
+
+;; undo-tree
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
+;; rainbow-delimiters
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+;; powerline
+(require 'powerline)
+(powerline-default-theme)
 
 ;; export config
 (provide 'init-package)
