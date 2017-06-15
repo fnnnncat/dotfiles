@@ -18,6 +18,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(bongo-enabled-backends (quote (mpg123 afplay)))
  '(company-show-numbers t)
  '(custom-safe-themes
    (quote
@@ -27,7 +28,16 @@
  '(ido-mode (quote both) nil (ido))
  '(send-mail-function (quote smtpmail-send-it))
  '(smtpmail-smtp-server "smtp.163.com")
- '(smtpmail-smtp-service 25))
+ '(smtpmail-smtp-service 25)
+ '(web-mode-code-indent-offset 2)
+ '(web-mode-commet-style 2)
+ '(web-mode-css-indent-offset 2)
+ '(web-mode-enable-auto-closing t)
+ '(web-mode-enable-auto-pairing t)
+ '(web-mode-enable-css-colorization t)
+ '(web-mode-enable-current-column-highlight t)
+ '(web-mode-enable-current-element-highlight t)
+ '(web-mode-markup-indent-offset 2))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

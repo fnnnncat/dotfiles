@@ -52,15 +52,5 @@
          (ignore-errors (backward-up-list))
          (funcall fn)))))
 
-
-;; JSX设置
-(define-derived-mode react-mode web-mode "React-IDE" "jsx-mode设置.")
-(add-hook 'react-mode-hook
-  '(lambda
-     ()
-     (web-mode-set-content-type "jsx")
-     (message "set web-mode-content-type %s" web-mode-content-type)))
-(add-to-list 'auto-mode-alist '("\\.js$" . react-mode))
-
 (provide 'init-base)
 ;;; init-base.el ends here

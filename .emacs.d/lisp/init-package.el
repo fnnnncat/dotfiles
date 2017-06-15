@@ -1,4 +1,3 @@
-
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives '("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/") t)
@@ -32,8 +31,9 @@
                            markdown-mode
                            neotree
                            undo-tree
-                           rainbow-delimiters
                            powerline
+                           bongo
+                           prettier-js
                            ) "Default Packages")
 
 (setq package-selected-packages faaaar/packages)
@@ -203,12 +203,25 @@
   :config
   (global-undo-tree-mode))
 
-;; rainbow-delimiters
-(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
-
 ;; powerline
-(require 'powerline)
-(powerline-default-theme)
+(use-package powerline
+  :config
+  (powerline-default-theme))
+
+;; prettier-js
+(use-package prettier-js
+  :config
+  (add-hook 'js2-mode-hook 'prettier-js-mode)
+  (add-hook 'web-mode-hook 'prettier-js-mode)
+  (setq prettier-js-args '("--no-semi" "--single-quote" "--trailing-comma" "all")))
+(defun enable-minor-mode (my-pair)
+  "Enable minor mode"
+  (if (buffer-file-name)
+    (if (string-match (car my-pair) buffer-file-name)
+      (funcall (cdr my-pair)))))
+(add-hook 'web-mode-hook #'(lambda () (enable-minor-mode '("\\.jsx?\\'" . prettier-js-mode))))
+(eval-after-load 'js2-mode
+  '(define-key js-mode-map (kbd "C-M-\\") 'prettier-js))
 
 ;; export config
 (provide 'init-package)
