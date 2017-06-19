@@ -34,6 +34,7 @@
                            powerline
                            bongo
                            prettier-js
+                           idomenu
                            ) "Default Packages")
 
 (setq package-selected-packages faaaar/packages)

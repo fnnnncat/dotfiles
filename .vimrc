@@ -13,7 +13,6 @@ set linespace=2
 set expandtab
 set tabstop=2
 set shiftwidth=2
-au BufRead,BufNewFile,BufWrite *.conf  set shiftwidth=4
 set softtabstop=2
 set cursorline
 set nospell
@@ -38,8 +37,9 @@ set selection=inclusive
 set mouse=a
 set foldmethod=syntax
 set foldlevelstart=1
+au BufRead,BufNewFile,BufWrite *.conf  set shiftwidth=4
 
-  if has("gui_running")
+if has("gui_running")
   set guioptions-=L
   set guioptions-=r
   set guioptions-=b
@@ -50,38 +50,33 @@ call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'Xuyuanp/nerdtree-git-Plugin'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'mattn/emmet-vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'tomasr/molokai'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Raimondi/delimitMate'
-Plugin 'ap/vim-css-color'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
 Plugin 'tpope/vim-markdown'
-Plugin 'fatih/vim-go'
 Plugin 'rking/ag.vim'
 Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'pangloss/vim-javascript'
 Plugin 'mxw/vim-jsx'
-Plugin 'justinj/vim-react-snippets'
-Plugin 'hail2u/vim-css3-syntax'
 Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'shougo/unite.vim'
 Plugin 'shougo/vimproc.vim'
 Plugin 'shougo/neomru.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'heavenshell/vim-jsdoc'
-Plugin 'stephpy/vim-yaml'
-Plugin 'junegunn/vim-emoji'
+Plugin 'altercation/vim-colors-solarized'
+Plugin 't9md/vim-choosewin'
 
 call vundle#end()
 filetype plugin indent on
@@ -90,12 +85,6 @@ let mapleader=';'
 
 " YCM
 let g:ycm_autoclose_preview_window_after_completion=1
-
-" gitgutter
-let g:gitgutter_sign_added = emoji#for('shit')
-let g:gitgutter_sign_modified = emoji#for('imp')
-let g:gitgutter_sign_removed = emoji#for('fearful')
-let g:gitgutter_sign_modified_removed = emoji#for('new_moon_with_face')
 
 " shortcut
 nmap <ESC><ESC> :w<CR>
@@ -128,17 +117,17 @@ au vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 nmap <F5> :NERDTreeToggle<CR>
 
 let g:NERDTreeIndicatorMapCustom = {
-    \ "Modified"  : "✹",
-    \ "Staged"    : "✚",
-    \ "Untracked" : "✭",
-    \ "Renamed"   : "➜",
-    \ "Unmerged"  : "═",
-    \ "Deleted"   : "✖",
-    \ "Dirty"     : "✗",
-    \ "Clean"     : "✔︎",
-    \ 'Ignored'   : '☒',
-    \ "Unknown"   : "?"
-    \ }
+      \ "Modified"  : "✹",
+      \ "Staged"    : "✚",
+      \ "Untracked" : "✭",
+      \ "Renamed"   : "➜",
+      \ "Unmerged"  : "═",
+      \ "Deleted"   : "✖",
+      \ "Dirty"     : "✗",
+      \ "Clean"     : "✔︎",
+      \ 'Ignored'   : '☒',
+      \ "Unknown"   : "?"
+      \ }
 
 " emmet
 au FileType html,jsx,javascript.jsx EmmetInstall
@@ -150,10 +139,12 @@ imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " theme
 syntax enable
-color molokai
+set background=dark
+colorscheme solarized
+let g:solarized_termcolors=256
 
 " airline
-let g:airline_theme='molokai'
+let g:airline_theme='solarized'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#left_sep = ' '
@@ -190,14 +181,13 @@ let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh
 " ag
 let g:ag_working_path_mode="r"
 
-" tagbar
-nmap <F8> :TagbarToggle<CR>
-
 " jsdoc
 nmap <silent> <C-l> <Plug>(jsdoc)
 
 " unite
 nmap <C-p> :Unite -toggle -auto-resize -buffer-name=mixed buffer file_rec/async bookmark<CR>
+nmap <C-x> :Unite -toggle -auto-resize -buffer-name=mixed buffer<CR>
+
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'ignore_globs', ['node_modules/', 'output/'])
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'max_candidates', 99999)
 
