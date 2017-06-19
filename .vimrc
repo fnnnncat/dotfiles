@@ -113,7 +113,7 @@ let g:ycm_key_list_previous_completion = ['<c-p>', '<c-k>']
 
 " nerdtree
 au stdinreadpre * let s:std_in=1
-au vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" au vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 nmap <F5> :NERDTreeToggle<CR>
 
 let g:NERDTreeIndicatorMapCustom = {
@@ -185,11 +185,18 @@ let g:ag_working_path_mode="r"
 nmap <silent> <C-l> <Plug>(jsdoc)
 
 " unite
+nmap <C-m> :Unite -toggle -auto-resize -buffer-name=menu<CR>
 nmap <C-p> :Unite -toggle -auto-resize -buffer-name=mixed buffer file_rec/async bookmark<CR>
-nmap <C-x> :Unite -toggle -auto-resize -buffer-name=mixed buffer<CR>
+nmap <C-b> :Unite -toggle -auto-resize -buffer-name=buffer buffer<CR>
+nmap <C-c> :Unite -toggle -auto-resize -buffer-name=shell-cmd output/shellcmd<CR>
+nmap <C-l> :Unite -toggle -auto-resize -buffer-name=launcher launcher<CR>
 
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'ignore_globs', ['node_modules/', 'output/'])
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'max_candidates', 99999)
 
 " image
 au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
+
+nmap - <Plug>(choosewin)
+let g:choosewin_overlay_enable = 1
+
