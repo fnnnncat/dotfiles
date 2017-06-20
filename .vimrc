@@ -139,7 +139,7 @@ imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " theme
 syntax enable
-set background=dark
+set background=light
 colorscheme solarized
 let g:solarized_termcolors=256
 
@@ -185,11 +185,9 @@ let g:ag_working_path_mode="r"
 nmap <silent> <C-l> <Plug>(jsdoc)
 
 " unite
-nmap <C-m> :Unite -toggle -auto-resize -buffer-name=menu<CR>
+nmap <C-x> :Unite -toggle -auto-resize -buffer-name=menu<CR>
 nmap <C-p> :Unite -toggle -auto-resize -buffer-name=mixed buffer file_rec/async bookmark<CR>
 nmap <C-b> :Unite -toggle -auto-resize -buffer-name=buffer buffer<CR>
-nmap <C-c> :Unite -toggle -auto-resize -buffer-name=shell-cmd output/shellcmd<CR>
-nmap <C-l> :Unite -toggle -auto-resize -buffer-name=launcher launcher<CR>
 
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'ignore_globs', ['node_modules/', 'output/'])
 call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'max_candidates', 99999)
