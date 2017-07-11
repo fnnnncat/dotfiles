@@ -45,12 +45,19 @@ if has("gui_running")
   set guioptions-=b
 endif
 
+if $TERM_PROGRAM =~ "iTerm"
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'brookhong/cscope.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
+Plugin 'hail2u/vim-css3-syntax'
 Plugin 'mattn/emmet-vim'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -77,11 +84,15 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 't9md/vim-choosewin'
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 filetype plugin indent on
 
 let mapleader=';'
+
+" vim-css3-syntax
+setlocal iskeyword+=-
 
 " YCM
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -106,6 +117,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint'
+" let g:syntastic_debug = 3
 
 " ycm
 let g:ycm_key_list_select_completion = ['<C-n>', '<c-j>']
@@ -197,4 +209,22 @@ au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
 
 nmap - <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
+
+" cscop
+if has("cscope")
+  set csprg=/usr/local/bin/cscope
+  set csto=0
+  set cst
+  set nocsverb
+  set cscopequickfix=s-,c-,d-,i-,t-,e-
+  " add any database in current directory
+  if filereadable("cscope.out")
+    cs add cscope.out
+    " else add database pointed to by environment
+  elseif $CSCOPE_DB != ""
+    cs add $CSCOPE_DB
+  endif
+  set csverb
+endif
+
 
