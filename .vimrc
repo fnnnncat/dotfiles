@@ -45,16 +45,10 @@ if has("gui_running")
   set guioptions-=b
 endif
 
-if $TERM_PROGRAM =~ "iTerm"
-  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
-
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'brookhong/cscope.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'hail2u/vim-css3-syntax'
@@ -209,22 +203,3 @@ au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
 
 nmap - <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
-
-" cscop
-if has("cscope")
-  set csprg=/usr/local/bin/cscope
-  set csto=0
-  set cst
-  set nocsverb
-  set cscopequickfix=s-,c-,d-,i-,t-,e-
-  " add any database in current directory
-  if filereadable("cscope.out")
-    cs add cscope.out
-    " else add database pointed to by environment
-  elseif $CSCOPE_DB != ""
-    cs add $CSCOPE_DB
-  endif
-  set csverb
-endif
-
-
