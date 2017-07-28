@@ -85,3 +85,4 @@ export NVM_DIR="$HOME/.nvm"
 
 export EDITOR='vim'
 export TERM="xterm-256color"
+eval $(thefuck --alias)

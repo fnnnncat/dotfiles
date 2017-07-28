@@ -49,6 +49,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'Valloric/MatchTagAlways'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
 Plugin 'hail2u/vim-css3-syntax'
@@ -111,8 +112,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint'
-" let g:syntastic_debug = 3
-
+let g:syntastic_html_tidy_quiet_messages = { "level" : "warnings" }
 " ycm
 let g:ycm_key_list_select_completion = ['<C-n>', '<c-j>']
 let g:ycm_key_list_previous_completion = ['<c-p>', '<c-k>']
@@ -203,3 +203,17 @@ au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
 
 nmap - <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
+
+" vim-go
+let g:go_fmt_autosave = 1
+let g:go_fmt_command = "goimports"
+
+" match tag always
+let g:mta_use_matchparen_group = 1
+let g:mta_filetypes = {
+    \ 'html' : 1,
+    \ 'xhtml' : 1,
+    \ 'xml' : 1,
+    \ 'jinja' : 1,
+    \ 'js': 1,
+    \}

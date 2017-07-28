@@ -9,7 +9,6 @@
 (require 'cl)
 (require 'init-package)
 (require 'init-base)
-(require 'init-org)
 (require 'init-func)
 (require 'init-ui)
 

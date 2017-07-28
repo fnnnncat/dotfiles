@@ -43,7 +43,7 @@
 
   (setq x-underline-at-descent-line t)
 
-  (deftheme solarized-dark "Wow Dark Theme")
-  (create-solarized-theme 'dark 'solarized-dark))
+  (deftheme solarized-light "Wow Light Theme")
+  (create-solarized-theme 'light 'solarized-light))
 
 (provide 'init-ui)
