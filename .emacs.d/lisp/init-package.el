@@ -12,7 +12,6 @@
 			  helm
 			  helm-ag
 			  helm-projectile			  
-			  helm-company
 			  helm-themes
 			  helm-mode-manager
 			  helm-projectile
@@ -34,6 +33,23 @@
   (dolist (pkg faaaar/packages)
     (when (not (package-installed-p pkg))
       (package-install pkg))))
+
+;; company
+(add-hook 'after-init-hook 'global-company-mode)
+(global-company-mode)
+(setq company-minimum-prefix-length 1)
+
+(with-eval-after-load 'company
+  (define-key company-active-map (kbd "M-n") nil)
+  (define-key company-active-map (kbd "M-p") nil)
+  (define-key company-active-map (kbd "C-n") #'company-select-next)
+  (define-key company-active-map (kbd "C-p") #'company-select-previous))
+
+;; smartparens-config
+(use-package smartparents-config
+  :config
+  (smartparents-global-mode t)
+  (add-hook 'emacs-list-mode-hook 'show-paren-mode))
 
 ;; helm
 (helm-mode 1)
