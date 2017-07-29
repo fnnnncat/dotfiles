@@ -1,4 +1,6 @@
 *.swp
+.tmux/resurrect/*
+.tmux/plugins/*
 .emacs.d/elpa/*
 .emacs.d/recentf*
 .emacs.d/.mc-lists.el

@@ -23,6 +23,8 @@
                            counsel-projectile
                            web-mode
                            emmet-mode
+                           js2-mode
+                           multiple-cursors
                            ) "Default Packages.")
 
 (setq package-selected-packages faaaar/packages)
@@ -66,9 +68,16 @@
   (editorconfig-mode 1))
 
 ;; flycheck
-(global-flycheck-mode t)
-(with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode))
+(use-package flycheck
+  :init
+  (setq flycheck-idle-change-delay 2.0)
+  (setq-default flycheck-temp-prefix ".")
+  :config
+  (with-eval-after-load 'flycheck
+    (flycheck-pos-tip-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-mode))
 
 ;; ivy
 (ivy-mode 1)
@@ -100,6 +109,17 @@
   (add-hook 'css-mode-hook  'emmet-mode)
   (add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert t)))
   (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2))))
+
+;; multiple-cursor
+(use-package multiple-cursors
+  :config
+  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
+  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this))
+
+;; js2-mode
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+(add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
 
 (provide 'init-package)
 ;;; init-package.el ends here
