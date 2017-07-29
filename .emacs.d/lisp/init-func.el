@@ -53,6 +53,7 @@
             (transpose-lines arg))
           (forward-line -1))
         (move-to-column column t)))))
+
 (defun move-text-down (arg)
   (interactive "*p")
   (move-text-internal arg))
@@ -62,5 +63,7 @@
 
 (global-set-key (kbd "C-S-p") 'move-text-up)
 (global-set-key (kbd "C-S-n") 'move-text-down)
+
+(global-set-key (kbd "s-d") 'kill-whole-line)
 
 (provide 'init-func)
