@@ -3,37 +3,23 @@
     "Logger": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
+    "eslint:recommended"
   ],
   "parser": "babel-eslint",
-
   "env": {
     "browser": true,
     "node": true,
     "es6": true
   },
   "settings": {
-    "ecmascript": 7,
-    "jsx": true,
-    "react": {
-      "createClass": "createReactClass",
-      "pragma": "React"
-    }
+    "ecmascript": 7
   },
-  "plugins": [
-    "react"
-  ],
   "parserOptions": {
     "ecmaVersion": 7,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "jsx": true
-    }
+    "sourceType": "module"
   },
   "rules": {
     "no-console": 0,
-    "react/prop-types": 0,
 
     "semi": ["error", "never"],
     "max-params": ["error", {"max": 3}],
@@ -52,7 +38,6 @@
     "quotes": ["error", "single"],
     "newline-after-var": ["error", "always"],
 
-    "jsx-quotes": ["warn", "prefer-double"],
     "newline-before-return": 1,
     "spaced-comment": ["warn", "always"],
     "no-unused-vars": ["warn", {"vars": "all", "args": "after-used"}],

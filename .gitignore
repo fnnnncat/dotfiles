@@ -1,4 +1,5 @@
 *.swp
+**/.#*
 .tmux/resurrect/*
 .tmux/plugins/*
 .emacs.d/elpa/*
