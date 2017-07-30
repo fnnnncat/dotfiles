@@ -1,6 +1,7 @@
 ;;; package --- init emacs' package
 ;;; Commentary:
 ;;; Code:
+
 (when (>= emacs-major-version 24)
   (require 'package)
   (add-to-list 'package-archives '("gnu" . "http://mirrors.tuna.tsinghua.edu.cn/elpa/gnu/") t)
@@ -9,6 +10,10 @@
 
 (defvar faaaar/packages '(
                            solarized-theme
+                           s
+                           origami
+                           magit
+                           git-gutter
                            comment-dwim-2
                            region-bindings-mode
                            company
@@ -135,6 +140,15 @@
 ;; comment-dwim-2
 (global-set-key (kbd "M-;") 'comment-dwim-2)
 (setq comment-dwim-2--inline-comment-behavior 'reindent-comment)
+
+;; origami
+(use-package origami)
+
+;; gint-gutter
+(use-package git-gutter
+  :config
+  (global-git-gutter-mode t)
+  (git-gutter:linum-setup))
 
 (provide 'init-package)
 ;;; init-package.el ends here
