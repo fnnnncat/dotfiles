@@ -68,16 +68,19 @@
   (editorconfig-mode 1))
 
 ;; flycheck
-(use-package flycheck
-  :init
-  (setq flycheck-idle-change-delay 2.0)
-  (setq-default flycheck-temp-prefix ".")
-  :config
-  (with-eval-after-load 'flycheck
-    (flycheck-pos-tip-mode))
-  (add-hook 'after-init-hook #'global-flycheck-mode)
-  (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
-  (flycheck-add-mode 'javascript-eslint 'js2-mode))
+;; (use-package flycheck
+;;  :init
+;;  :init
+;;  (setq flycheck-idle-change-delay 2.0)
+;;   (setq flycheck-idle-change-delay 2.0)
+;;   (setq-default flycheck-temp-prefix ".")
+;;   (setq flycheck-eslintrc "~/.eslintrc")
+;;   :config
+;;   (with-eval-after-load 'flycheck
+;;     (flycheck-pos-tip-mode))
+;;   (add-hook 'after-init-hook #'global-flycheck-mode)
+;;   (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
+;;   (flycheck-add-mode 'javascript-eslint 'js2-mode))
 
 ;; ivy
 (ivy-mode 1)
