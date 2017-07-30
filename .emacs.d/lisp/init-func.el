@@ -13,7 +13,7 @@
         (message "Indent selected region."))
       (progn
         (indent-buffer)
-        (message "Indent buffer.")))))
+n        (message "Indent buffer.")))))
 (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
 
 ;; 在上／下创建新行
@@ -27,8 +27,8 @@
   (move-end-of-line 1)
   (newline))
 
-(global-set-key (kbd "C-o") 'insert-new-line-bottom)
-(global-set-key (kbd "C-S-o") 'insert-new-line-top)
+(global-set-key (kbd "C-c C-o") 'insert-new-line-bottom)
+(global-set-key (kbd "C-c M-o") 'insert-new-line-top)
 
 ;; 移动当前行
 (defun move-text-internal (arg)
@@ -61,9 +61,10 @@
   (interactive "*p")
   (move-text-internal (- arg)))
 
-(global-set-key (kbd "C-S-p") 'move-text-up)
-(global-set-key (kbd "C-S-n") 'move-text-down)
+(global-set-key (kbd "C-c C-p") 'move-text-up)
+(global-set-key (kbd "C-c C-n") 'move-text-down)
 
-(global-set-key (kbd "s-d") 'kill-whole-line)
+(global-set-key (kbd "C-c C-d") 'kill-whole-line)
+(global-set-key (kbd "C-c C-r") 'repeat)
 
 (provide 'init-func)

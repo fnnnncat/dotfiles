@@ -9,9 +9,9 @@
 
 (defvar faaaar/packages '(
                            solarized-theme
-                           xwidgete
+                           comment-dwim-2
+                           region-bindings-mode
                            company
-                           web-beautify
                            use-package
                            smartparens
                            exec-path-from-shell
@@ -46,7 +46,7 @@
 (global-company-mode)
 (setq company-minimum-prefix-length 1)
 (setq company-dabbrev-downcase 0)
-(setq company-idle-delay 2)
+(setq company-idle-delay 1)
 (with-eval-after-load 'company
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
@@ -69,19 +69,16 @@
   (editorconfig-mode 1))
 
 ;; flycheck
-;; (use-package flycheck
-;;  :init
-;;  :init
-;;  (setq flycheck-idle-change-delay 2.0)
-;;   (setq flycheck-idle-change-delay 2.0)
-;;   (setq-default flycheck-temp-prefix ".")
-;;   (setq flycheck-eslintrc "~/.eslintrc")
-;;   :config
-;;   (with-eval-after-load 'flycheck
-;;     (flycheck-pos-tip-mode))
-;;   (add-hook 'after-init-hook #'global-flycheck-mode)
-;;   (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
-;;   (flycheck-add-mode 'javascript-eslint 'js2-mode))
+(use-package flycheck
+  :init
+  (setq flycheck-idle-change-delay 2.0)
+  (setq-default flycheck-temp-prefix ".")
+  :config
+  (with-eval-after-load 'flycheck
+    (flycheck-pos-tip-mode))
+  (add-hook 'after-init-hook #'global-flycheck-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
+  (flycheck-add-mode 'javascript-eslint 'js2-mode))
 
 ;; ivy
 (ivy-mode 1)
@@ -114,26 +111,30 @@
   (add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert t)))
   (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2))))
 
+;; region-bindings-mode
+(use-package region-bindings-mode
+  :config
+  (region-bindings-mode-enable))
+
 ;; multiple-cursor
 (use-package multiple-cursors
   :config
-  (global-set-key (kbd "C->") 'mc/mark-next-like-this)
-  (global-set-key (kbd "C-<") 'mc/mark-previous-like-this))
+  (define-key region-bindings-mode-map "a" 'mc/mark-all-like-this)
+  (define-key region-bindings-mode-map "p" 'mc/mark-previous-like-this)
+  (define-key region-bindings-mode-map "n" 'mc/mark-next-like-this)
+  (define-key region-bindings-mode-map "k" 'mc/skip-to-preview-like-this)
+  (define-key region-bindings-mode-map "j" 'mc/skip-to-next-like-this))
 
 ;; js2-mode
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
 (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+(setq js2-mode-show-parse-errors nil)
+(setq js2-mode-show-strict-warnings nil)
 
-;; web-beautify
-(use-package web-beautify
-  :config
-  (eval-after-load 'js2-mode '(define-key js2-mode-map (kbd "C-M-l") 'web-beautify-js))
-  (eval-after-load 'web-mode '(define-key web-mode-map (kbd "C-c b") 'web-beautify-html))
-  (eval-after-load 'css-mode '(define-key css-mode-map (kbd "C-c b") 'web-beautify-css)))
-  ; (eval-after-load 'js2-mode '(add-hook 'js2-mode-hook (lambda () (add-hook 'before-save-hook 'web-beautify-js-buffer t t))))
-  ; (eval-after-load 'web-mode '(add-hook 'web-mode-hook (lambda () (add-hook 'before-save-hook 'web-beautify-html-buffer t t))))
-  ; (eval-after-load 'css-mode '(add-hook 'css-mode-hook (lambda () (add-hook 'before-save-hook 'web-beautify-css-buffer t t)))))
+;; comment-dwim-2
+(global-set-key (kbd "M-;") 'comment-dwim-2)
+(setq comment-dwim-2--inline-comment-behavior 'reindent-comment)
 
 (provide 'init-package)
 ;;; init-package.el ends here
