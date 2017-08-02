@@ -2,7 +2,7 @@
 (setq-default cursor-type 'bar)
 ;; 设置默认字体
 (set-face-attribute 'default nil
-  :family "Source Code Pro"
+  :family "Source Code Pro for Powerline"
   :height 180
   :weight 'normal
   :width 'normal)

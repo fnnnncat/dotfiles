@@ -17,7 +17,7 @@
 (electric-indent-mode t)
 
 ;; 显示行号
-(global-linum-mode t)
+;; (global-linum-mode t)
 
 ;; 禁用开启时的不可描述
 (setq inhibit-splash-screen t)

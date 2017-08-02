@@ -10,6 +10,11 @@
 
 (defvar faaaar/packages '(
                            solarized-theme
+                           nlinum-relative
+                           nlinum-hl
+                           json-mode
+                           async
+                           powerline
                            s
                            origami
                            magit
@@ -145,13 +150,42 @@
 (setq comment-dwim-2--inline-comment-behavior 'reindent-comment)
 
 ;; origami
-(use-package origami)
+(use-package origami
+  :bind
+  ("C-c TAB" . origami-recursively-toggle-node)
+  ("C-\\" . origami-open-node-recursively)
+  ("M-\\" . origami-show-only-node)
+  :config
+  (global-origami-mode))
 
-;; gint-gutter
+;; git-gutter
 (use-package git-gutter
   :config
   (global-git-gutter-mode t)
   (git-gutter:linum-setup))
 
+;; json-mode
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
+
+;; powerline
+(use-package powerline
+  :config
+  (powerline-center-theme))
+
+;; nlinum-hl
+(use-package nlinum-hl
+  :config
+  (add-hook 'post-gc-hook #'nlinum-hl-flush-all-windows)
+  (add-hook 'focus-in-hook  #'nlinum-hl-flush-all-windows)
+  (add-hook 'focus-out-hook #'nlinum-hl-flush-all-windows)
+  (advice-add #'select-window :before #'nlinum-hl-do-select-window-flush)
+  (advice-add #'select-window :after  #'nlinum-hl-do-select-window-flush)
+  (run-with-idle-timer 5 t #'nlinum-hl-flush-window)
+  (run-with-idle-timer 30 t #'nlinum-hl-flush-all-windows))
+
+;; nlinum-relative
+(use-package nlinum-relative
+  :config
+  (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 (provide 'init-package)
 ;;; init-package.el ends here
