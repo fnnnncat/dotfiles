@@ -1,4 +1,4 @@
-;;; package --- init emacs' package
+ ;;; package --- init emacs' package
 ;;; Commentary:
 ;;; Code:
 
@@ -78,6 +78,7 @@
   :init
   (setq flycheck-idle-change-delay 2.0)
   (setq-default flycheck-temp-prefix ".")
+  (setq flycheck-eslintrc "~/.eslintrc")
   (setq flycheck-checker-error-threshold 9999)
   :config
   (with-eval-after-load 'flycheck
@@ -85,20 +86,6 @@
   (add-hook 'after-init-hook #'global-flycheck-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode))
-
-(defun eslint-fix-file ()
-  (interactive)
-  (message "eslint --fixing the file" (buffer-file-name))
-  (shell-command (concat "eslint --fix " (buffer-file-name))))
-
-(defun eslint-fix-file-and-revert ()
-  (interactive)
-  (eslint-fix-file)
-  (revert-buffer t t))
-
-(add-hook 'js2-mode-hook
-  (lambda ()
-    (add-hook 'after-save-hook #'eslint-fix-file-and-revert)))
 
 ;; ivy
 (ivy-mode 1)
@@ -115,6 +102,7 @@
   (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
   (setq web-mode-engines-alist
     '(("php" . "\\.phtml\\'")
        ("php" . "\\.tpl\\'"))))

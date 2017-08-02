@@ -1,3 +1,4 @@
+
 ;; 重新缩进当前buffer
 (defun indent-buffer()
   (interactive)
@@ -13,7 +14,7 @@
         (message "Indent selected region."))
       (progn
         (indent-buffer)
-n        (message "Indent buffer.")))))
+        (message "Indent buffer.")))))
 (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
 
 ;; 在上／下创建新行
@@ -27,8 +28,8 @@ n        (message "Indent buffer.")))))
   (move-end-of-line 1)
   (newline))
 
-(global-set-key (kbd "C-c C-o") 'insert-new-line-bottom)
-(global-set-key (kbd "C-c M-o") 'insert-new-line-top)
+(global-set-key (kbd "C-c n") 'insert-new-line-bottom)
+(global-set-key (kbd "C-c p") 'insert-new-line-top)
 
 ;; 移动当前行
 (defun move-text-internal (arg)
@@ -66,5 +67,17 @@ n        (message "Indent buffer.")))))
 
 (global-set-key (kbd "C-c C-d") 'kill-whole-line)
 (global-set-key (kbd "C-c C-r") 'repeat)
+
+(defun eslint-fix-file ()
+  (interactive)
+  (message "eslint --fixing the file" (buffer-file-name))
+  (shell-command (concat "eslint --fix " (buffer-file-name)))
+  (revert-buffer t t))
+
+(defun after-save ()
+  (cond
+    ((equal major-mode 'js2-jsx-mode) (eslint-fix-file))))
+
+(add-hook 'after-save-hook #'after-save)
 
 (provide 'init-func)
