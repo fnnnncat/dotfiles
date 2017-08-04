@@ -1,6 +1,9 @@
 ;; 自动加载外部修改过的文件
 (global-auto-revert-mode 1)
 
+;; 支持鼠标模式
+(xterm-mouse-mode 1)
+
 ;; 设置缩进
 (setq tab-width 2)
 

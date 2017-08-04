@@ -92,16 +92,7 @@
   (flycheck-add-mode 'javascript-eslint 'js2-jsx-mode)
   (flycheck-add-mode 'javascript-eslint 'js2-mode))
 
-;; ivy
-(ivy-mode 1)
-(counsel-projectile-on)
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-r") 'counsel-recentf)
-(global-set-key (kbd "C-x C-p") 'counsel-projectile)
-
-;; web-mode
+';; web-mode
 (use-package web-mode
   :config
   (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
@@ -111,6 +102,16 @@
   (setq web-mode-engines-alist
     '(("php" . "\\.phtml\\'")
        ("php" . "\\.tpl\\'"))))
+
+;; ivy
+(ivy-mode 1)
+(counsel-projectile-on)
+(global-set-key (kbd "C-s") 'swiper)
+(global-set-key (kbd "M-x") 'counsel-M-x)
+(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+(global-set-key (kbd "C-x C-r") 'counsel-recentf)
+(global-set-key (kbd "C-x C-p") 'counsel-projectile)
+(global-set-key (kbd "C-c C-s") 'counsel-projectile-ag)
 
 ;; emmet-mode
 (use-package emmet-mode
