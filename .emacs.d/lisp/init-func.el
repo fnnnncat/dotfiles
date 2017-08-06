@@ -78,6 +78,6 @@
   (cond
     ((equal major-mode 'js2-jsx-mode) (eslint-fix-file))))
 
-(add-hook 'after-save-hook #'after-save)
+;; (add-hook 'after-save-hook #'after-save)
 
 (provide 'init-func)
