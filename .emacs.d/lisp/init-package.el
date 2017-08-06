@@ -11,16 +11,13 @@
 (defvar faaaar/packages '(
                            solarized-theme
                            nlinum-relative
-                           nlinum-hl
-                           json-mode
-                           async
                            powerline
+                           wgrep
                            s
-                           origami
                            magit
                            git-gutter
-                           comment-dwim-2
                            region-bindings-mode
+                           expand-region
                            company
                            use-package
                            smartparens
@@ -35,7 +32,10 @@
                            web-mode
                            emmet-mode
                            js2-mode
+                           smart-hungry-delete
                            multiple-cursors
+                           indent-guide
+                           ace-jump-mode
                            ) "Default Packages.")
 
 (setq package-selected-packages faaaar/packages)
@@ -57,6 +57,8 @@
        (if (not (symbolp ,obj)) ,obj
          (setq mapkey (kbd (concat "M-g " keystr)))
          (global-set-key mapkey ,obj) mapkey))))
+
+(m-map-key 'save-buffer (kbd "C-x C-s"))
 
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
@@ -112,13 +114,12 @@
 ;; ivy
 (ivy-mode 1)
 (counsel-projectile-on)
-(global-set-key (kbd "C-s") 'swiper)
-(global-set-key (kbd "M-x") 'counsel-M-x)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
-(global-set-key (kbd "C-x C-r") 'counsel-recentf)
-(global-set-key (kbd "C-x C-p") 'counsel-projectile)
-(global-set-key (kbd "C-c C-s") 'counsel-projectile-ag)
 (m-map-key 'counsel-projectile-ag (kbd "C-c C-s"))
+(m-map-key 'counsel-projectile (kbd "C-x C-p"))
+(m-map-key 'counsel-recentf (kbd "C-x C-r"))
+(m-map-key 'counsel-find-file (kbd "C-x C-f"))
+(m-map-key 'counsel-M-x (kbd "M-x"))
+(m-map-key 'swiper (kbd "C-s"))
 
 ;; emmet-mode
 (use-package emmet-mode
@@ -153,48 +154,51 @@
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
 
-;; comment-dwim-2
-(global-set-key (kbd "M-;") 'comment-dwim-2)
-(setq comment-dwim-2--inline-comment-behavior 'reindent-comment)
-
-;; origami
-(use-package origami
-  :bind
-  ("C-c TAB" . origami-recursively-toggle-node)
-  ("C-\\" . origami-open-node-recursively)
-  ("M-\\" . origami-show-only-node)
-  :config
-  (global-origami-mode))
-
 ;; git-gutter
 (use-package git-gutter
   :config
   (global-git-gutter-mode t)
   (git-gutter:linum-setup))
-
-;; json-mode
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-mode))
-
 ;; powerline
 (use-package powerline
   :config
   (powerline-center-theme))
-
-;; nlinum-hl
-(use-package nlinum-hl
-  :config
-  (add-hook 'post-gc-hook #'nlinum-hl-flush-all-windows)
-  (add-hook 'focus-in-hook  #'nlinum-hl-flush-all-windows)
-  (add-hook 'focus-out-hook #'nlinum-hl-flush-all-windows)
-  (advice-add #'select-window :before #'nlinum-hl-do-select-window-flush)
-  (advice-add #'select-window :after  #'nlinum-hl-do-select-window-flush)
-  (run-with-idle-timer 5 t #'nlinum-hl-flush-window)
-  (run-with-idle-timer 30 t #'nlinum-hl-flush-all-windows))
 
 ;; nlinum-relative
 (use-package nlinum-relative
   :config
   (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 (provide 'init-package)
+
+;; wgrep
+(use-package wgrep)
+
+;; smart-hungry-delete
+(use-package smart-hungry-delete
+  :ensure t
+  :bind (("<backspace>" . smart-hungry-delete-backward-char)
+          ("C-d" . smart-hungry-delete-forward-char))
+  :defer nil ;; dont defer so we can add our functions to hooks
+  :config (smart-hungry-delete-add-default-hooks)
+  )
+
+(use-package expand-region
+  :bind(("C-c C-m C-e" . er/expand-region)
+         ("C-c C-m C-w" . er/mark-word)
+         ("C-c C-m C-f" . er/mark-defun)
+         ("C-c C-m C-c" . er/mark-comment)
+         ("C-c C-m C-i C-q" . er/mark-inside-quotes)
+         ("C-c C-m C-i C-p" . er/mark-inside-pairs)
+         ("C-c C-m C-o C-q" . er/mark-outside-quotes)
+         ("C-c C-m C-o C-p" . er/mark-outside-pairs)))
+
+(use-package ace-jump-mode
+  :bind (("C-c C-j" . ace-jump-char-mode)))
+
+;; indent-guide
+(use-package indent-guide
+  :config
+  (indent-guide-global-mode)
+  (setq indent-guide-delay 0.1))
 
 ;;; init-package.el ends here
