@@ -1,4 +1,4 @@
- ;;; package --- init emacs' package
+;;; package --- init emacs' package
 ;;; Commentary:
 ;;; Code:
 
@@ -51,12 +51,19 @@
     (when (not (package-installed-p pkg))
       (package-install pkg))))
 
+(defmacro m-map-key (obj key)
+  `(let ((keystr (cadr ',key)) mapkey)
+     (define-key key-translation-map ,key
+       (if (not (symbolp ,obj)) ,obj
+         (setq mapkey (kbd (concat "M-g " keystr)))
+         (global-set-key mapkey ,obj) mapkey))))
+
 ;; company
 (add-hook 'after-init-hook 'global-company-mode)
 (global-company-mode)
 (setq company-minimum-prefix-length 1)
 (setq company-dabbrev-downcase 0)
-(setq company-idle-delay 1)
+(setq company-idle-delay 0)
 (with-eval-after-load 'company
   (define-key company-active-map (kbd "M-n") nil)
   (define-key company-active-map (kbd "M-p") nil)
@@ -83,7 +90,6 @@
   :init
   (setq flycheck-idle-change-delay 2.0)
   (setq-default flycheck-temp-prefix ".")
-  (setq flycheck-eslintrc "~/.eslintrc")
   (setq flycheck-checker-error-threshold 9999)
   :config
   (with-eval-after-load 'flycheck
@@ -112,6 +118,7 @@
 (global-set-key (kbd "C-x C-r") 'counsel-recentf)
 (global-set-key (kbd "C-x C-p") 'counsel-projectile)
 (global-set-key (kbd "C-c C-s") 'counsel-projectile-ag)
+(m-map-key 'counsel-projectile-ag (kbd "C-c C-s"))
 
 ;; emmet-mode
 (use-package emmet-mode
@@ -189,4 +196,5 @@
   :config
   (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 (provide 'init-package)
+
 ;;; init-package.el ends here
