@@ -1,4 +1,9 @@
+;;; package -- Summary
+;;; Commentary:
+;;;   Li Yunfan's func configuration
+;;; Code:
 
+(require 'cl)
 ;; 重新缩进当前buffer
 (defun indent-buffer()
   (interactive)
@@ -31,8 +36,8 @@
 (global-set-key (kbd "C-c n") 'insert-new-line-bottom)
 (global-set-key (kbd "C-c p") 'insert-new-line-top)
 
-;; 移动当前行
 (defun move-text-internal (arg)
+  "ARG 移动当前行."
   (cond
     ((and mark-active transient-mark-mode)
       (if (> (point) (mark))
@@ -56,9 +61,11 @@
         (move-to-column column t)))))
 
 (defun move-text-down (arg)
+  "ARG 移动当前行到到下一行."
   (interactive "*p")
   (move-text-internal arg))
 (defun move-text-up (arg)
+  "ARG 移动当前行到到上一行."
   (interactive "*p")
   (move-text-internal (- arg)))
 
@@ -69,15 +76,20 @@
 (global-set-key (kbd "C-c C-r") 'repeat)
 
 (defun eslint-fix-file ()
+  "检验并修复文件."
   (interactive)
-  (message "eslint --fixing the file" (buffer-file-name))
+  (message "eslint --fixing the file")
   (shell-command (concat "eslint --fix " (buffer-file-name)))
   (revert-buffer t t))
 
 (defun after-save ()
+  "保存之后执行."
   (cond
-    ((equal major-mode 'js2-jsx-mode) (eslint-fix-file))))
+    ((equal major-mode 'js2-jsx-mode) (eslint-fix-file))
+    ((equal major-mode 'js2-mode) (eslint-fix-file))))
 
 ;; (add-hook 'after-save-hook #'after-save)
 
 (provide 'init-func)
+
+;;; init-func.el ends here
