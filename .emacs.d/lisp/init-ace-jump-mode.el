@@ -4,7 +4,8 @@
 ;;; Code:
 
 (use-package ace-jump-mode
-  :bind (("C-c C-j" . ace-jump-char-mode)))
+  :config
+  (m-map-key 'ace-jump-char-mode (kbd "C-c C-j")))
 
 (provide 'init-ace-jump-mode)
 ;;; init-ace-jump-mode.el ends here

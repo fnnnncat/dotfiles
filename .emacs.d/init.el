@@ -34,6 +34,7 @@
 (require 'init-ace-jump-mode)
 (require 'init-indent-guide)
 (require 'init-neotree)
+;; (require 'init-rjsx-mode)
 (require 'init-base)
 (require 'init-func)
 (require 'init-ui)

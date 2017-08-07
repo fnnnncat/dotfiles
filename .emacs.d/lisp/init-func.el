@@ -79,16 +79,17 @@
   "检验并修复文件."
   (interactive)
   (message "eslint --fixing the file")
-  (shell-command (concat "eslint --fix " (buffer-file-name)))
+  (shell-command (concat "eslint --fix " (buffer-file-name) " > /dev/null"))
   (revert-buffer t t))
 
+(m-map-key 'eslint-fix-file (kbd "C-c C-l"))
 (defun after-save ()
   "保存之后执行."
   (cond
     ((equal major-mode 'js2-jsx-mode) (eslint-fix-file))
     ((equal major-mode 'js2-mode) (eslint-fix-file))))
 
-;; (add-hook 'after-save-hook #'after-save)
+(add-hook 'after-save-hook #'after-save)
 
 (provide 'init-func)
 

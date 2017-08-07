@@ -8,9 +8,13 @@
   (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+  (add-to-list 'auto-mode-alist '("HiPOS_Android\\/.*\\.js\\'" . web-mode))
   (setq web-mode-engines-alist
     '(("php" . "\\.phtml\\'")
-       ("php" . "\\.tpl\\'"))))
+       ("php" . "\\.tpl\\'")))
+  (setq web-mode-content-types-alist
+    '(("jsx" . "HiPOS_Android\\.*\\.js\\'"))
+    ))
 
 (provide 'init-web-mode)
 ;;; init-web-mode.el ends here

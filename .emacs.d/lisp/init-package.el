@@ -33,6 +33,7 @@
                            multiple-cursors
                            indent-guide
                            ace-jump-mode
+                           rjsx-mode
                            ) "Default Packages.")
 
 (setq package-selected-packages faaaar/packages)
