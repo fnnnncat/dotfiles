@@ -8,7 +8,8 @@
   (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
   (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
   (setq js2-mode-show-parse-errors nil)
-  (setq js2-mode-show-strict-warnings nil))
+  (setq js2-mode-show-strict-warnings nil)
+  (setq forward-sexp-function nil))
 
 (provide 'init-js2-mode)
 ;;; init-js2-mode.el ends here

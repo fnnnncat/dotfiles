@@ -8,6 +8,7 @@
 (m-map-key 'counsel-projectile-ag (kbd "C-c C-s"))
 (m-map-key 'counsel-projectile (kbd "C-x C-p"))
 (m-map-key 'counsel-recentf (kbd "C-x C-r"))
+(m-map-key 'counsel-projectile-switch-to-buffer (kbd "C-x C-b"))
 (m-map-key 'counsel-find-file (kbd "C-x C-f"))
 (m-map-key 'counsel-M-x (kbd "M-x"))
 (m-map-key 'swiper (kbd "C-s"))

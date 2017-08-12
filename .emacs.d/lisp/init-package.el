@@ -34,6 +34,7 @@
                            indent-guide
                            ace-jump-mode
                            rjsx-mode
+                           js-doc
                            ) "Default Packages.")
 
 (setq package-selected-packages faaaar/packages)
