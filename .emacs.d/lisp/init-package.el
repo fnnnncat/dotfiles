@@ -6,12 +6,12 @@
 (require 'init-macro)
 
 (defvar faaaar/packages '(
+                           avy
                            solarized-theme
                            nlinum-relative
                            powerline
                            wgrep
                            s
-                           magit
                            git-gutter
                            region-bindings-mode
                            expand-region
@@ -31,7 +31,6 @@
                            js2-mode
                            smart-hungry-delete
                            multiple-cursors
-                           ace-jump-mode
                            js-doc
                            ) "Default Packages.")
 

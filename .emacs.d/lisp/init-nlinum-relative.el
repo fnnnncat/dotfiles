@@ -5,6 +5,7 @@
 
 (use-package nlinum-relative
   :config
+  (global-linum-mode t)
   (add-hook 'prog-mode-hook 'nlinum-relative-mode))
 
 (provide 'init-nlinum-relative)

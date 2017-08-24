@@ -1,6 +1,9 @@
 ;; 自动加载外部修改过的文件
 (global-auto-revert-mode 1)
 
+;; ;; 行号
+;; (global-nlinum-mode t)
+
 ;; 支持鼠标模式
 (xterm-mouse-mode 1)
 
