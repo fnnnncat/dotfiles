@@ -8,4 +8,4 @@
 (show-smartparens-global-mode 1)
 
 (provide 'init-smartparens-config)
-;;; init-smartparens.el ends here
+;;; init-smartparens-config.el ends here

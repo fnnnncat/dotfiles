@@ -31,9 +31,7 @@
                            js2-mode
                            smart-hungry-delete
                            multiple-cursors
-                           indent-guide
                            ace-jump-mode
-                           rjsx-mode
                            js-doc
                            ) "Default Packages.")
 
