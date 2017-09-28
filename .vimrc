@@ -49,6 +49,9 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'VundleVim/Vundle.vim'
+Plugin 'Quramy/tsuquyomi'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'ianks/vim-tsx'
 Plugin 'Valloric/MatchTagAlways'
 Plugin 'scrooloose/nerdtree'
 Plugin 'Xuyuanp/nerdtree-git-plugin'
@@ -60,13 +63,10 @@ Plugin 'scrooloose/nerdcommenter'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'Raimondi/delimitMate'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'Chiel92/vim-autoformat'
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-markdown'
 Plugin 'rking/ag.vim'
-Plugin 'majutsushi/tagbar'
 Plugin 'scrooloose/syntastic'
 Plugin 'editorconfig/editorconfig-vim'
 Plugin 'pangloss/vim-javascript'
@@ -75,7 +75,6 @@ Plugin 'cakebaker/scss-syntax.vim'
 Plugin 'shougo/unite.vim'
 Plugin 'shougo/vimproc.vim'
 Plugin 'shougo/neomru.vim'
-Plugin 'tpope/vim-fugitive'
 Plugin 'heavenshell/vim-jsdoc'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 't9md/vim-choosewin'
@@ -89,18 +88,8 @@ let mapleader=';'
 " vim-css3-syntax
 setlocal iskeyword+=-
 
-" YCM
-let g:ycm_autoclose_preview_window_after_completion=1
-
 " shortcut
 nmap <ESC><ESC> :w<CR>
-nmap <tab> v>
-nmap <s-tab> v<
-nmap <silent> <LEFT> :tabprevious<CR>
-nmap <silent> <RIGHT> :tabnext<CR>
-
-" vim-autoformat
-nmap <F3> :Autoformat<CR>
 
 " syntastic
 set statusline+=%#warningmsg#
@@ -113,35 +102,21 @@ let g:syntastic_check_on_wq = 1
 let g:syntastic_javascript_checkers = ['eslint']
 let g:syntastic_javascript_eslint_exec = 'eslint'
 let g:syntastic_html_tidy_quiet_messages = { "level" : "warnings" }
-" ycm
+
+" YCM
 let g:ycm_key_list_select_completion = ['<C-n>', '<c-j>']
 let g:ycm_key_list_previous_completion = ['<c-p>', '<c-k>']
+let g:ycm_autoclose_preview_window_after_completion=1
 
 " nerdtree
 au stdinreadpre * let s:std_in=1
-" au vimenter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 nmap <F5> :NERDTreeToggle<CR>
 
-let g:NERDTreeIndicatorMapCustom = {
-      \ "Modified"  : "✹",
-      \ "Staged"    : "✚",
-      \ "Untracked" : "✭",
-      \ "Renamed"   : "➜",
-      \ "Unmerged"  : "═",
-      \ "Deleted"   : "✖",
-      \ "Dirty"     : "✗",
-      \ "Clean"     : "✔︎",
-      \ 'Ignored'   : '☒',
-      \ "Unknown"   : "?"
-      \ }
-
 " emmet
-au FileType html,jsx,javascript.jsx EmmetInstall
+au FileType html,jsx,javascript.jsx,typescript.tsx EmmetInstall
 let g:user_emmet_install_global = 0
 let g:user_emmet_mode='a'
-let g:user_emmet_expandabbr_key = '<Tab>'
 let g:user_emmet_settings = {'javascript.jsx': {'extends': 'jsx'}}
-imap <expr> <tab> emmet#expandAbbrIntelligent("\<tab>")
 
 " theme
 syntax enable
@@ -180,40 +155,59 @@ let g:multi_cursor_quit_key='<Esc>'
 " repeat
 silent! call repeat#set("\<Plug>MyWonderfulMap", v:count)
 
-" markdown
-au BufNewFile,BufReadPost *.md set filetype=markdown
-let g:markdown_fenced_languages = ['html', 'javascript', 'css', 'sass', 'bash=sh']
-
 " ag
 let g:ag_working_path_mode="r"
 
 " jsdoc
 nmap <silent> <C-l> <Plug>(jsdoc)
+let g:jsdoc_enable_es6 = 1
+let g:jsdoc_user_defined_tags = {
+  \ '@author': 'liyunfan1@xiaomi.com',
+  \ '@date': strftime('%Y-%m-%d')
+  \ }
 
 " unite
 nmap <C-x> :Unite -toggle -auto-resize -buffer-name=menu<CR>
 nmap <C-p> :Unite -toggle -auto-resize -buffer-name=mixed buffer file_rec/async bookmark<CR>
 nmap <C-b> :Unite -toggle -auto-resize -buffer-name=buffer buffer<CR>
 
-call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'ignore_globs', ['node_modules/', 'output/'])
-call unite#custom#source('file_rec,file_mru,file_rec/async,buffer,grep,locate', 'max_candidates', 99999)
+call unite#custom#source(
+      \ 'file_rec,file_mru,file_rec/async,buffer,grep,locate',
+      \ 'ignore_globs',
+      \ ['node_modules/', 'output/', 'build/', 'dist/']
+      \)
+call unite#custom#source(
+      \ 'file_rec,file_mru,file_rec/async,buffer,grep,locate',
+      \ 'max_candidates',
+      \ 99999
+      \)
 
-" image
-au BufRead *.png,*.jpg,*.jpeg :call DisplayImage()
-
+" choosewin
 nmap - <Plug>(choosewin)
 let g:choosewin_overlay_enable = 1
 
 " vim-go
 let g:go_fmt_autosave = 1
 let g:go_fmt_command = "goimports"
+let g:go_textobj_include_function_doc = 1
+let g:go_jump_to_error = 1
 
 " match tag always
 let g:mta_use_matchparen_group = 1
 let g:mta_filetypes = {
     \ 'html' : 1,
-    \ 'xhtml' : 1,
-    \ 'xml' : 1,
-    \ 'jinja' : 1,
     \ 'js': 1,
+    \ 'jsx': 1,
+    \ 'tsx': 1,
+    \ 'ts': 1,
+    \ 'css': 1,
+    \ 'scss': 1
     \}
+
+" typescript-vim
+" setlocal indentkeys+=0
+
+" tsuquyomi
+" let g:tsuquyomi_completion_detail = 1
+let g:syntastic_typescript_checkers = [] " You shouldn't use 'tsc' checker.
+
