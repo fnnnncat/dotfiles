@@ -3,6 +3,9 @@
 * 基础配置
 
   #+BEGIN_SRC emacs-lisp
+    (unless window-system
+      (global-set-key [mouse-4] 'scroll-down-line)
+      (global-set-key [mouse-5] 'scroll-up-line))
     ;; 显示光标所在区域的两边的括号
     (show-paren-mode 1)
     (setq show-paren-style 'expression)
@@ -33,7 +36,8 @@
     (tool-bar-mode -1)
 
     ;; 隐藏滚动条
-    (scroll-bar-mode -1)
+    (if window-system
+      (scroll-bar-mode -1))
 
     ;; 智能缩进
     (electric-indent-mode t)
@@ -191,6 +195,7 @@
 ** SOLARIZED-THEME
 
     #+BEGIN_SRC emacs-lisp
+(if window-system
       (use-package solarized-theme
         :ensure t
         :config
@@ -224,9 +229,12 @@
 
         (setq x-underline-at-descent-line t)
 
-        (deftheme solarized-light "Wow Light Theme")
-        (create-solarized-theme 'light 'solarized-light))
+        (deftheme solarized-dark "Wow Light Theme")
+        (create-solarized-theme 'dark 'solarized-dark)))
     #+END_SRC
+
+    #+RESULTS:
+    : t
 
 
 ** EXEC-PATH-FROM-SHELL
@@ -386,12 +394,12 @@
 ** BEACON
 
     #+BEGIN_SRC emacs-lisp
-      (use-package beacon
-        :ensure t
-        :config
-        (beacon-mode 1)
-        (setq beacon-color "#ff6700")
-        (global-set-key (kbd "C-c b b b") 'beacon-blink))
+      ;; (use-package beacon
+      ;;   :ensure t
+      ;;   :config
+      ;;   (beacon-mode 1)
+      ;;   (setq beacon-color "#ff6700")
+      ;;   (global-set-key (kbd "C-c b b b") 'beacon-blink))
     #+END_SRC
 
 
