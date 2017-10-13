@@ -254,8 +254,14 @@
       (use-package org-bullets
         :ensure t
         :config
-        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+        (add-hook 'org-mode-hook
+                  (lambda ()
+                    (org-bullets-mode 1)
+                    (linum-mode 0))))
      #+END_SRC
+
+    #+RESULTS:
+    : t
 
 
 ** WITCH-KEY
@@ -288,7 +294,9 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package counsel
-        :ensure t)
+        :ensure t
+        :config
+        (global-set-key (kbd "M-x") 'counsel-M-x))
 
       (use-package swiper
         :ensure try
@@ -389,19 +397,6 @@
         :config (smart-hungry-delete-add-default-hooks)
         )
     #+END_SRC
-
-
-** BEACON
-
-    #+BEGIN_SRC emacs-lisp
-      ;; (use-package beacon
-      ;;   :ensure t
-      ;;   :config
-      ;;   (beacon-mode 1)
-      ;;   (setq beacon-color "#ff6700")
-      ;;   (global-set-key (kbd "C-c b b b") 'beacon-blink))
-    #+END_SRC
-
 
 ** EXPAND-REGION
 
@@ -583,13 +578,8 @@
         (flycheck-mode +1)
         (setq flycheck-check-syntax-automatically '(save mode-enabled))
         (eldoc-mode +1)
-        (tide-hl-identifier-mode +1)
-        ;; company is an optional dependency. You have to
-        ;; install it separately via package-install
-        ;; `M-x package-install [ret] company`
-        (company-mode +1))
+        (tide-hl-identifier-mode +1))
 
-      ;; aligns annotation to the right hand side
       (setq company-tooltip-align-annotations t)
 
       (add-hook 'typescript-mode-hook #'setup-tide-mode)
@@ -627,8 +617,7 @@
       (use-package neotree
         :ensure t
         :config
-        (setq neo-smart-open t)
-        (setq projectile-switch-project-action 'neotree-projectile-action))
+        (setq neo-smart-open t))
     #+END_SRC
 
     #+RESULTS:
@@ -730,6 +719,15 @@
         (autoload 'gfm-mode "markdown-mode"
           "Major mode for editing GitHub Flavored Markdown files" t)
         (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
+    #+END_SRC
+
+    #+RESULTS:
+
+** WGREP
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package wgrep
+        :ensure t)
     #+END_SRC
 
     #+RESULTS:
