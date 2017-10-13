@@ -1,0 +1,730 @@
+#+STARTUP: overview
+
+* 基础配置
+
+  #+BEGIN_SRC emacs-lisp
+    ;; 显示光标所在区域的两边的括号
+    (show-paren-mode 1)
+    (setq show-paren-style 'expression)
+
+    ;; 修改光标类型
+    (setq-default cursor-type 'bar)
+
+    ;; 设置默认字体
+    (set-face-attribute 'default nil
+                        :family "Source Code Pro for Powerline"
+                        :height 180
+                        :weight 'normal
+                        :width 'normal)
+    (setq org-src-fontify-natively t)
+    ;; 自动加载外部修改过的文件
+    (global-auto-revert-mode 1)
+
+    ;; 支持鼠标模式
+    (xterm-mouse-mode 1)
+
+    ;; 设置缩进
+    (setq tab-width 2)
+
+    ;; 关闭自己生产的保存的文件
+    (setq auto-save-default nil)
+
+    ;; 隐藏工具栏
+    (tool-bar-mode -1)
+
+    ;; 隐藏滚动条
+    (scroll-bar-mode -1)
+
+    ;; 智能缩进
+    (electric-indent-mode t)
+
+    ;; 显示行号
+    (global-linum-mode t)
+
+    ;; 禁用开启时的不可描述
+    (setq inhibit-splash-screen t)
+
+    ;; 禁止备份文件
+    (setq make-backup-files nil)
+
+    ;; 直接替换所选区块的文本，而不是在后面追加
+    (delete-selection-mode t)
+
+    ;; 开启自动全屏
+    (setq initial-frame-alist (quote ((fullscreen . maximized))))
+
+    ;; 当前行高亮
+    (global-hl-line-mode t)
+
+    ;; 禁止bibibibibibi
+    (setq ring-bell-function 'ignore)
+
+    ;; 读写文件编码设置
+    (prefer-coding-system 'utf-8)
+    (setq buffer-file-coding-system 'utf-8)
+
+    ;; 使用y或者n 而不是 yes或者no
+    (fset 'yes-or-no-p 'y-or-n-p)
+  #+END_SRC
+
+  #+RESULTS:
+  : y-or-n-p
+
+
+* 自定义函数
+
+** 重新缩进当前选中区域或整个BUFFER
+   #+BEGIN_SRC emacs-lisp
+     (defun indent-buffer()
+       (interactive)
+       (indent-region (point-min) (point-max)))
+     (defun indent-region-or-buffer()
+       (interactive)
+       (save-excursion
+         (if (region-active-p)
+             (progn
+               (indent-region (region-beginning) (region-end))
+               (message "Indent selected region."))
+           (progn
+             (indent-buffer)
+             (message "Indent buffer.")))))
+
+     (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
+    #+END_SRC
+
+   #+RESULTS:
+   : indent-region-or-buffer
+
+
+** ORGMODE插入代码块
+   #+BEGIN_SRC emacs-lisp
+    (defun org-insert-src-block (src-code-type)
+      "插入一个`SRC-CODE-TYPE'类型的代码块"
+      (interactive
+       (let ((src-code-types
+              '("emacs-lisp" "python" "C" "sh" "java" "js" "clojure" "C++" "css"
+                "calc" "asymptote" "dot" "gnuplot" "ledger" "lilypond" "mscgen"
+                "octave" "oz" "plantuml" "R" "sass" "screen" "sql" "awk" "ditaa"
+                "haskell" "latex" "lisp" "matlab" "ocaml" "org" "perl" "ruby"
+                "scheme" "sqlite")))
+         (list (ido-completing-read "Source code type: " src-code-types))))
+      (progn
+        (newline-and-indent)
+        (insert (format "#+BEGIN_SRC %s\n" src-code-type))
+        (newline-and-indent)
+        (insert "#+END_SRC\n")
+        (previous-line 2)
+        (org-edit-src-code)))
+   #+END_SRC
+
+
+** 在上／下行创建新行
+   #+BEGIN_SRC emacs-lisp
+     (defun insert-new-line-top()
+       (interactive)
+       (move-beginning-of-line 1)
+       (open-line 1))
+
+     (defun insert-new-line-bottom()
+       (interactive)
+       (move-end-of-line 1)
+       (newline))
+
+     (global-set-key (kbd "C-c i n") 'insert-new-line-bottom)
+     (global-set-key (kbd "C-c i p") 'insert-new-line-top)
+   #+END_SRC
+
+
+** 移动当前行到上／下行
+    #+BEGIN_SRC emacs-lisp
+      (defun move-text-internal (arg)
+        "ARG 移动当前行."
+        (cond
+          ((and mark-active transient-mark-mode)
+           (if (> (point) (mark))
+             (exchange-point-and-mark))
+           (let ((column (current-column))
+                 (text (delete-and-extract-region (point) (mark))))
+             (forward-line arg)
+             (move-to-column column t)
+             (set-mark (point))
+             (insert text)
+             (exchange-point-and-mark)
+             (setq deactivate-mark nil)))
+          (t
+            (let ((column (current-column)))
+              (beginning-of-line)
+              (when (or (> arg 0) (not (bobp)))
+                (forward-line)
+                (when (or (< arg 0) (not (eobp)))
+                  (transpose-lines arg))
+                (forward-line -1))
+              (move-to-column column t)))))
+
+      (defun move-text-down (arg)
+        "ARG 移动当前行到到下一行."
+        (interactive "*p")
+        (move-text-internal arg))
+      (defun move-text-up (arg)
+        "ARG 移动当前行到到上一行."
+        (interactive "*p")
+        (move-text-internal (- arg)))
+
+      (global-set-key (kbd "C-c m p") 'move-text-up)
+      (global-set-key (kbd "C-c m n") 'move-text-down)
+    #+END_SRC
+
+    #+RESULTS:
+    : move-text-down
+
+
+* 快捷键
+
+  #+BEGIN_SRC emacs-lisp
+    (global-set-key (kbd "C-c C-d") 'kill-whole-line)
+    (global-set-key (kbd "C-c C-r") 'repeat)
+  #+END_SRC
+
+
+* 开发插件
+
+** SOLARIZED-THEME
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package solarized-theme
+        :ensure t
+        :config
+        ;; make the fringe stand out from the background
+        (setq solarized-distinct-fringe-background t)
+
+        ;; Don't change the font for some headings and titles
+        (setq solarized-use-variable-pitch nil)
+
+        ;; make the modeline high contrast
+        (setq solarized-high-contrast-mode-line t)
+
+        ;; Use less bolding
+        (setq solarized-use-less-bold t)
+
+        ;; Use more italics
+        (setq solarized-use-more-italic t)
+
+        ;; Use less colors for indicators such as git:gutter, flycheck and similar
+        (setq solarized-emphasize-indicators nil)
+
+        ;; Don't change size of org-mode headlines (but keep other size-changes)
+        (setq solarized-scale-org-headlines nil)
+
+        ;; Avoid all font-size changes
+        (setq solarized-height-minus-1 1.0)
+        (setq solarized-height-plus-1 1.0)
+        (setq solarized-height-plus-2 1.0)
+        (setq solarized-height-plus-3 1.0)
+        (setq solarized-height-plus-4 1.0)
+
+        (setq x-underline-at-descent-line t)
+
+        (deftheme solarized-light "Wow Light Theme")
+        (create-solarized-theme 'light 'solarized-light))
+    #+END_SRC
+
+
+** EXEC-PATH-FROM-SHELL
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package exec-path-from-shell
+        :ensure t
+        :config
+        (when (memq window-system '(mac ns x))
+          (exec-path-from-shell-initialize)))
+    #+END_SRC
+
+
+** ORG-BULLETS
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package org-bullets
+        :ensure t
+        :config
+        (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+     #+END_SRC
+
+
+** WITCH-KEY
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package which-key
+        :ensure t
+        :config
+        (which-key-mode)
+        (which-key-setup-side-window-bottom))
+    #+END_SRC
+
+
+** ACE-WINDOW
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package ace-window
+        :ensure t
+        :init
+        (progn
+          (global-set-key [remap other-window] 'ace-window)
+          (custom-set-faces
+           '(aw-leading-char-face
+             ((t (:inherit ace-jump-face-foreground :height 3.0)))))
+          ))
+    #+END_SRC
+
+
+** IVY
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package counsel
+        :ensure t)
+
+      (use-package swiper
+        :ensure try
+        :config
+        (progn
+          (ivy-mode 1)
+          (setq ivy-use-virtual-buffers t)
+          (global-set-key (kbd "\C-s") 'swiper)))
+    #+END_SRC
+
+    #+RESULTS:
+    : t
+
+
+** PROJECTILE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package projectile
+        :ensure t
+        :config
+        (projectile-global-mode)
+        (setq projectile-completion-system 'ivy))
+
+      (use-package counsel-projectile
+        :ensure t
+        :config
+        (counsel-projectile-on)
+        (global-set-key (kbd "C-x C-r") 'counsel-recentf))
+
+      (provide 'init-projectile)
+    #+END_SRC
+
+
+** AVY
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package avy
+        :ensure t
+        :config
+        (avy-setup-default)
+        :bind
+        ("M-s" . avy-goto-char))
+    #+END_SRC
+
+
+** COMPANY
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package company
+        :ensure t
+        :init
+        (global-company-mode)
+        (setq
+         company-minimum-prefix-length 1
+         company-show-numbers t
+         company-dabbrev-downcase nil
+         company-idle-delay 0)
+        :config
+        (define-key company-active-map (kbd "M-n") nil)
+        (define-key company-active-map (kbd "M-p") nil)
+        (define-key company-active-map (kbd "C-n") 'company-select-next)
+        (define-key company-active-map (kbd "C-p") 'company-select-previous))
+
+      (use-package company-quickhelp
+        :ensure t
+        :init
+        (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
+
+
+      (use-package company-go
+        :ensure t
+        :init
+        (with-eval-after-load 'company
+          (add-to-list 'company-backends 'company-go)))
+    #+END_SRC
+
+    #+RESULTS:
+
+
+** UNDO-TREE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package undo-tree
+        :ensure t
+        :init
+        (global-undo-tree-mode))
+    #+END_SRC
+
+
+** SMART-HUNGRY-DELETE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package smart-hungry-delete
+        :ensure t
+        :bind (("<backspace>" . smart-hungry-delete-backward-char)
+               ("C-d" . smart-hungry-delete-forward-char))
+        :defer nil ;; dont defer so we can add our functions to hooks
+        :config (smart-hungry-delete-add-default-hooks)
+        )
+    #+END_SRC
+
+
+** BEACON
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package beacon
+        :ensure t
+        :config
+        (beacon-mode 1)
+        (setq beacon-color "#ff6700")
+        (global-set-key (kbd "C-c b b b") 'beacon-blink))
+    #+END_SRC
+
+
+** EXPAND-REGION
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package expand-region
+        :ensure t
+        :config
+        (global-set-key (kbd "C-c e r e") 'er/expand-region)
+        (global-set-key (kbd "C-c e r w") 'er/mark-word)
+        (global-set-key (kbd "C-c e r d") 'er/mark-defun)
+        (global-set-key (kbd "C-c e r c") 'er/mark-comment)
+        (global-set-key (kbd "C-c e r q") 'er/mark-outside-quotes)
+        (global-set-key (kbd "C-c e r p") 'er/mark-outside-pairs))
+    #+END_SRC
+
+
+** IDEIT
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package iedit
+        :ensure t)
+    #+END_SRC
+
+
+** MULTIPLE-CURSORS
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package region-bindings-mode
+        :ensure t
+        :config
+        (region-bindings-mode-enable))
+
+      (use-package multiple-cursors
+        :ensure t
+        :config
+        (define-key region-bindings-mode-map "a" 'mc/mark-all-like-this)
+        (define-key region-bindings-mode-map "p" 'mc/mark-previous-like-this)
+        (define-key region-bindings-mode-map "n" 'mc/mark-next-like-this)
+        (define-key region-bindings-mode-map "k" 'mc/skip-to-preview-like-this)
+        (define-key region-bindings-mode-map "j" 'mc/skip-to-next-like-this))
+    #+END_SRC
+
+
+** EMMET-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package emmet-mode
+        :ensure t
+        :config
+        (setq emmet-move-cursor-between-quotes t)
+        (setq emmet-self-closing-tag-style " /")
+        (add-hook 'web-mode-hook 'emmet-mode)
+        (add-hook 'js2-mode 'emmet-mode)
+        (add-hook 'js2-jsx-mode 'emmet-mode)
+        (add-hook 'css-mode-hook  'emmet-mode)
+        (add-hook 'emmet-mode-hook (lambda () (setq emmet-indent-after-insert t)))
+        (add-hook 'emmet-mode-hook (lambda () (setq emmet-indentation 2))))
+    #+END_SRC
+
+
+** WEB-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package web-mode
+        :ensure t
+        :config
+        (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\/.*\\.js\\'" . web-mode))
+        (setq web-mode-engines-alist
+              '(("php" . "\\.phtml\\'")
+                ("php" . "\\.tpl\\'")))
+        (setq web-mode-content-types-alist
+              '(("jsx" . "\\.*\\.js\\'")))
+        (setq web-mode-code-indent-offset 2)
+        (setq web-mode-commet-style 2)
+        (setq web-mode-css-indent-offset 2)
+        (setq web-mode-enable-auto-closing t)
+        (setq web-mode-enable-auto-pairing t)
+        (setq web-mode-enable-css-colorization t)
+        (setq web-mode-enable-current-column-highlight t)
+        (setq web-mode-enable-current-element-highlight t)
+        (setq web-mode-enable-auto-quoting t)
+        (setq web-mode-markup-indent-offset 2))
+    #+END_SRC
+
+
+** DUMB-JUMP
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package dumb-jump
+        :ensure t
+        :config
+        (setq dumb-jump-selector 'ivy)
+        (global-set-key (kbd "M-g o") 'dumb-jump-go-other-window)
+        (global-set-key (kbd "M-g j") 'dumb-jump-go)
+        (global-set-key (kbd "M-g x") 'dumb-jump-go-prefer-external)
+        (global-set-key (kbd "M-g z") 'dumb-jump-go-prefer-external-other-window))
+    #+END_SRC
+
+
+** EDITORCONFIG
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package editorconfig
+        :ensure t
+        :config
+        (editorconfig-mode 1))
+    #+END_SRC
+
+
+** GIT-GUTTER
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package git-gutter
+        :ensure t
+        :config
+        (global-git-gutter-mode t))
+    #+END_SRC
+
+
+** JS-DOC
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package js-doc
+        :ensure t
+        :config
+        (setq js-doc-mail-address "liyunfan1@xiaomi.com"
+              js-doc-author (format "liyunfan1 <%s>" js-doc-mail-address)
+              js-doc-url "url of your website"
+              js-doc-license "license name")
+
+        (add-hook 'js2-mode-hook
+                  #'(lambda ()
+                      (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
+                      (define-key js2-mode-map "@" 'js-doc-insert-tag))))
+    #+END_SRC
+
+
+** JS2-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package js2-mode
+        :config
+        (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+        (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+        (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+        (setq js2-mode-show-parse-errors nil)
+        (setq js2-mode-show-strict-warnings nil)
+        (setq forward-sexp-function nil))
+    #+END_SRC
+
+
+** POWERLINE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package powerline
+        :ensure t
+        :config
+        (powerline-center-theme))
+    #+END_SRC
+
+
+** TYPESCRIPT
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package typescript
+        :ensure t)
+
+      (use-package tide
+        :ensure t)
+
+      (defun setup-tide-mode ()
+        (interactive)
+        (tide-setup)
+        (flycheck-mode +1)
+        (setq flycheck-check-syntax-automatically '(save mode-enabled))
+        (eldoc-mode +1)
+        (tide-hl-identifier-mode +1)
+        ;; company is an optional dependency. You have to
+        ;; install it separately via package-install
+        ;; `M-x package-install [ret] company`
+        (company-mode +1))
+
+      ;; aligns annotation to the right hand side
+      (setq company-tooltip-align-annotations t)
+
+      (add-hook 'typescript-mode-hook #'setup-tide-mode)
+      (add-hook 'web-mode-hook
+                (lambda ()
+                  (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                    (setup-tide-mode)
+                    (setq emmet-expand-jsx-className? t))))
+    #+END_SRC
+
+    #+RESULTS:
+    | (lambda nil (when (string-equal tsx (file-name-extension buffer-file-name)) (setup-tide-mode) (setq emmet-expand-jsx-className? t))) | (lambda nil (if (string-equal tsx (file-name-extension buffer-file-name)) (progn (setup-tide-mode)))) | er/add-web-mode-expansions | emmet-mode |
+
+
+** FLYCHECK
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package flycheck
+        :ensure t
+        :init
+        (global-flycheck-mode))
+
+      (use-package flycheck-pos-tip
+        :ensure t
+        :config
+        (with-eval-after-load 'flycheck (flycheck-pos-tip-mode)))
+    #+END_SRC
+
+    #+RESULTS:
+
+
+** NERDTREE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package neotree
+        :ensure t
+        :config
+        (setq neo-smart-open t)
+        (setq projectile-switch-project-action 'neotree-projectile-action))
+    #+END_SRC
+
+    #+RESULTS:
+    : t
+
+
+** ESHELL-TOGGLE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package shell-toggle
+        :ensure t
+        :config
+        (setq shell-toggle-launch-shell 'eshell)
+        (global-set-key (kbd "C-c ;") 'shell-toggle))
+    #+END_SRC
+
+    #+RESULTS:
+    : t
+
+
+** SMART-PARENS
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package smartparens
+        :ensure t
+        :config
+        (smartparens-global-mode))
+    #+END_SRC
+
+    #+RESULTS:
+    : t
+
+
+** JSON-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package json-mode
+        :ensure t)
+    #+END_SRC
+
+
+
+** GO-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package go-mode
+        :ensure t
+        :init
+        (setenv "GOROOT" "/usr/local/Cellar/go/1.9.1/libexec")
+        (setenv "GOPATH" "/Users/leeyunfan/workspace/code/go")
+        (progn
+          (setq gofmt-command "goimports")
+          (add-hook 'before-save-hook 'gofmt-before-save))
+        :config
+        (setq tab-width 2)
+        (setq indent-tabs-mode 1))
+
+      (use-package go-eldoc
+        :ensure t
+        :config
+        (add-hook 'go-mode-hook 'go-eldoc-setup))
+
+      (use-package go-flymake
+        :ensure t
+        :config
+        (add-hook 'flymake-mode-hook
+                  (lambda()
+                    (local-set-key (kbd "C-c C-e n") 'flymake-goto-next-error)))
+        (add-hook 'flymake-mode-hook
+                  (lambda()
+                    (local-set-key (kbd "C-c C-e p") 'flymake-goto-prev-error)))
+        (add-hook 'flymake-mode-hook
+                  (lambda()
+                    (local-set-key (kbd "C-c C-e m") 'flymake-popup-current-error-menu))))
+    #+END_SRC
+
+    #+RESULTS:
+    : t
+
+
+** MARKDOWN-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package markdown-mode
+        :ensure t
+        :commands (markdown-mode gfm-mode)
+        :mode
+        ("README\\.md\\'" . gfm-mode)
+        ("\\.md\\'" . markdown-mode)
+        ("\\.markdown\\'" . markdown-mode)
+        :init
+        (setq markdown-command "multimarkdown")
+        :config
+        (autoload 'markdown-mode "markdown-mode"
+          "Major mode for editing Markdown files" t)
+        (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+        (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+        (autoload 'gfm-mode "markdown-mode"
+          "Major mode for editing GitHub Flavored Markdown files" t)
+        (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
+    #+END_SRC
+
+    #+RESULTS:
+
+
+* ORG插件
