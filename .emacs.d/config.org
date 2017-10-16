@@ -257,6 +257,7 @@
         (add-hook 'org-mode-hook
                   (lambda ()
                     (org-bullets-mode 1)
+                    (projectile-mode 0)
                     (linum-mode 0))))
      #+END_SRC
 
@@ -397,6 +398,7 @@
         :config (smart-hungry-delete-add-default-hooks)
         )
     #+END_SRC
+
 
 ** EXPAND-REGION
 
