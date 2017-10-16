@@ -440,6 +440,19 @@
     #+END_SRC
 
 
+** JS2-MODE
+    #+BEGIN_SRC emacs-lisp
+      (use-package js2-mode
+        :config
+        (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+        (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
+        (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
+        (setq js2-mode-show-parse-errors nil)
+        (setq js2-mode-show-strict-warnings nil)
+        (setq forward-sexp-function nil))
+    #+END_SRC
+
+
 ** EMMET-MODE
 
     #+BEGIN_SRC emacs-lisp
@@ -536,20 +549,6 @@
                   #'(lambda ()
                       (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
                       (define-key js2-mode-map "@" 'js-doc-insert-tag))))
-    #+END_SRC
-
-
-** JS2-MODE
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package js2-mode
-        :config
-        (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-        (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
-        (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
-        (setq js2-mode-show-parse-errors nil)
-        (setq js2-mode-show-strict-warnings nil)
-        (setq forward-sexp-function nil))
     #+END_SRC
 
 
@@ -723,6 +722,7 @@
 
     #+RESULTS:
 
+
 ** WGREP
 
     #+BEGIN_SRC emacs-lisp
@@ -734,3 +734,10 @@
 
 
 * ORG插件
+
+  #+BEGIN_SRC emacs-lisp
+    (use-package emojify
+      :ensure t
+      :config
+      (add-hook 'after-init-hook #'global-emojify-mode))
+  #+END_SRC
