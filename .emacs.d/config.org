@@ -26,6 +26,9 @@
     ;; 支持鼠标模式
     (xterm-mouse-mode 1)
 
+    ;; 禁止tab
+    (setq-default indent-tabs-mode nil)
+
     ;; 设置缩进
     (setq tab-width 2)
 
@@ -483,20 +486,22 @@
         (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\/.*\\.js\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
+
         (setq web-mode-engines-alist
               '(("php" . "\\.phtml\\'")
                 ("php" . "\\.tpl\\'")))
         (setq web-mode-content-types-alist
-              '(("jsx" . "\\.*\\.js\\'")))
-        (setq web-mode-commet-style 2)
+              '(("jsx" . "\\.js\\'")))
         (setq web-mode-enable-auto-pairing nil)
         (setq web-mode-enable-auto-closing t)
         (setq web-mode-enable-css-colorization t)
         (setq web-mode-enable-current-column-highlight t)
         (setq web-mode-enable-current-element-highlight t)
         (setq web-mode-enable-auto-quoting nil)
-        (setq web-mode-markup-indent-offset 2)
+        (setq web-mode-commet-style 2)
         (setq web-mode-markup-indent-offset 2)
         (setq web-mode-css-indent-offset 2)
         (setq web-mode-code-indent-offset 2)
@@ -507,7 +512,6 @@
 
     #+RESULTS:
     : t
-
 
 ** DUMB-JUMP
 
@@ -608,7 +612,7 @@
       (use-package flycheck
         :ensure t
         :init
-        (global-flycheck-mode))
+        (add-hook 'after-init-hook #'global-flycheck-mode))
 
       (use-package flycheck-pos-tip
         :ensure t
