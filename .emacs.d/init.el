@@ -20,7 +20,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (go-flymake dash-at-point emojify markdown-preview-eww markdown-mode company-go counsel-gtags go-eldoc smartparens-config shell-toggle shell-toggle-plus eshell-toggle-plus eshell-toggle tide flycheck typescript typescript-mode neotree better-shell org-trello which-key solarized-theme use-package))))
+    (ssh magit evil-nerd-commenter rjsx-mode go-flymake dash-at-point emojify markdown-preview-eww markdown-mode company-go counsel-gtags go-eldoc smartparens-config shell-toggle shell-toggle-plus eshell-toggle-plus eshell-toggle tide flycheck typescript typescript-mode neotree better-shell org-trello which-key solarized-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

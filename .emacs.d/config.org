@@ -6,6 +6,10 @@
     (unless window-system
       (global-set-key [mouse-4] 'scroll-down-line)
       (global-set-key [mouse-5] 'scroll-up-line))
+
+    ;; x模式下支持复制到剪贴板功能
+    (setq x-select-enable-clipboard t)
+
     ;; 显示光标所在区域的两边的括号
     (show-paren-mode 1)
     (setq show-paren-style 'expression)
@@ -20,6 +24,7 @@
                         :weight 'normal
                         :width 'normal)
     (setq org-src-fontify-natively t)
+
     ;; 自动加载外部修改过的文件
     (global-auto-revert-mode 1)
 
@@ -34,13 +39,13 @@
 
     ;; 关闭自己生产的保存的文件
     (setq auto-save-default nil)
-
     ;; 隐藏工具栏
-    (tool-bar-mode -1)
 
+    (if window-system
+        (tool-bar-mode -1))
     ;; 隐藏滚动条
     (if window-system
-      (scroll-bar-mode -1))
+        (scroll-bar-mode -1))
 
     ;; 智能缩进
     (electric-indent-mode t)
@@ -74,14 +79,11 @@
     (fset 'yes-or-no-p 'y-or-n-p)
   #+END_SRC
 
-  #+RESULTS:
-  : y-or-n-p
-
 
 * 自定义函数
 
 ** 重新缩进当前选中区域或整个BUFFER
-   #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
      (defun indent-buffer()
        (interactive)
        (indent-region (point-min) (point-max)))
@@ -98,9 +100,6 @@
 
      (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
     #+END_SRC
-
-   #+RESULTS:
-   : indent-region-or-buffer
 
 
 ** ORGMODE插入代码块
@@ -181,63 +180,49 @@
       (global-set-key (kbd "C-c m n") 'move-text-down)
     #+END_SRC
 
-    #+RESULTS:
-    : move-text-down
 
-
-* 快捷键
-
-  #+BEGIN_SRC emacs-lisp
-    (global-set-key (kbd "C-c C-d") 'kill-whole-line)
-    (global-set-key (kbd "C-c C-r") 'repeat)
-  #+END_SRC
-
-
-* 开发插件
+* 常用插件
 
 ** SOLARIZED-THEME
 
     #+BEGIN_SRC emacs-lisp
-(if window-system
-      (use-package solarized-theme
-        :ensure t
-        :config
-        ;; make the fringe stand out from the background
-        (setq solarized-distinct-fringe-background t)
+      (if window-system
+          (use-package solarized-theme
+            :ensure t
+            :config
+            ;; make the fringe stand out from the background
+            (setq solarized-distinct-fringe-background t)
 
-        ;; Don't change the font for some headings and titles
-        (setq solarized-use-variable-pitch nil)
+            ;; Don't change the font for some headings and titles
+            (setq solarized-use-variable-pitch nil)
 
-        ;; make the modeline high contrast
-        (setq solarized-high-contrast-mode-line t)
+            ;; make the modeline high contrast
+            (setq solarized-high-contrast-mode-line t)
 
-        ;; Use less bolding
-        (setq solarized-use-less-bold t)
+            ;; Use less bolding
+            (setq solarized-use-less-bold t)
 
-        ;; Use more italics
-        (setq solarized-use-more-italic t)
+            ;; Use more italics
+            (setq solarized-use-more-italic t)
 
-        ;; Use less colors for indicators such as git:gutter, flycheck and similar
-        (setq solarized-emphasize-indicators nil)
+            ;; Use less colors for indicators such as git:gutter, flycheck and similar
+            (setq solarized-emphasize-indicators nil)
 
-        ;; Don't change size of org-mode headlines (but keep other size-changes)
-        (setq solarized-scale-org-headlines nil)
+            ;; Don't change size of org-mode headlines (but keep other size-changes)
+            (setq solarized-scale-org-headlines nil)
 
-        ;; Avoid all font-size changes
-        (setq solarized-height-minus-1 1.0)
-        (setq solarized-height-plus-1 1.0)
-        (setq solarized-height-plus-2 1.0)
-        (setq solarized-height-plus-3 1.0)
-        (setq solarized-height-plus-4 1.0)
+            ;; Avoid all font-size changes
+            (setq solarized-height-minus-1 1.0)
+            (setq solarized-height-plus-1 1.0)
+            (setq solarized-height-plus-2 1.0)
+            (setq solarized-height-plus-3 1.0)
+            (setq solarized-height-plus-4 1.0)
 
-        (setq x-underline-at-descent-line t)
+            (setq x-underline-at-descent-line t)
 
-        (deftheme solarized-dark "Wow Light Theme")
-        (create-solarized-theme 'dark 'solarized-dark)))
+            (deftheme solarized-dark "Wow Light Theme")
+            (create-solarized-theme 'dark 'solarized-dark)))
     #+END_SRC
-
-    #+RESULTS:
-    : t
 
 
 ** EXEC-PATH-FROM-SHELL
@@ -263,9 +248,6 @@
                     (projectile-mode 0)
                     (linum-mode 0))))
      #+END_SRC
-
-    #+RESULTS:
-    : t
 
 
 ** WITCH-KEY
@@ -298,9 +280,7 @@
 
     #+BEGIN_SRC emacs-lisp
       (use-package counsel
-        :ensure t
-        :config
-        (global-set-key (kbd "M-x") 'counsel-M-x))
+        :ensure t)
 
       (use-package swiper
         :ensure try
@@ -310,9 +290,6 @@
           (setq ivy-use-virtual-buffers t)
           (global-set-key (kbd "\C-s") 'swiper)))
     #+END_SRC
-
-    #+RESULTS:
-    : t
 
 
 ** PROJECTILE
@@ -352,23 +329,21 @@
       (use-package company
         :ensure t
         :init
-        (global-company-mode)
+        (add-hook 'after-init-hook 'global-company-mode)
         (setq
          company-minimum-prefix-length 1
          company-show-numbers t
-         company-dabbrev-downcase nil
+         company-dabbrev-downcase t
          company-idle-delay 0)
+        (add-hook 'eshell-mode-hook
+                  (lambda ()
+                    (setq-local company-idle-delay nil)
+                    (linum-mode 0)))
         :config
         (define-key company-active-map (kbd "M-n") nil)
         (define-key company-active-map (kbd "M-p") nil)
         (define-key company-active-map (kbd "C-n") 'company-select-next)
         (define-key company-active-map (kbd "C-p") 'company-select-previous))
-
-      (use-package company-quickhelp
-        :ensure t
-        :init
-        (add-hook 'global-company-mode-hook #'company-quickhelp-mode))
-
 
       (use-package company-go
         :ensure t
@@ -376,8 +351,6 @@
         (with-eval-after-load 'company
           (add-to-list 'company-backends 'company-go)))
     #+END_SRC
-
-    #+RESULTS:
 
 
 ** UNDO-TREE
@@ -418,14 +391,6 @@
     #+END_SRC
 
 
-** IDEIT
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package iedit
-        :ensure t)
-    #+END_SRC
-
-
 ** MULTIPLE-CURSORS
 
     #+BEGIN_SRC emacs-lisp
@@ -448,13 +413,27 @@
 ** JS2-MODE
     #+BEGIN_SRC emacs-lisp
       (use-package js2-mode
+        :ensure t
         :config
         (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
-        (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . js2-jsx-mode))
-        (add-to-list 'interpreter-mode-alist '("node" . js2-jsx-mode))
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
         (setq forward-sexp-function nil))
+    #+END_SRC
+
+
+** RJSX-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package rjsx-mode
+        :ensure t
+        :init
+        (add-to-list 'auto-mode-alist '("\\.jsx\\'" . rjsx-mode)
+        :config
+        (with-eval-after-load 'rjsx-mode
+          (define-key rjsx-mode-map "<" nil)
+          (define-key rjsx-mode-map (kbd "C-d") nil)
+          (define-key rjsx-mode-map ">" nil))))
     #+END_SRC
 
 
@@ -483,18 +462,8 @@
         :config
         (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.jsx\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
-        (add-to-list 'auto-mode-alist '("\\.js[x]?\\'" . web-mode))
-
-        (setq web-mode-engines-alist
-              '(("php" . "\\.phtml\\'")
-                ("php" . "\\.tpl\\'")))
-        (setq web-mode-content-types-alist
-              '(("jsx" . "\\.js\\'")))
         (setq web-mode-enable-auto-pairing nil)
         (setq web-mode-enable-auto-closing t)
         (setq web-mode-enable-css-colorization t)
@@ -510,8 +479,6 @@
         (setq web-mode-enable-css-colorization t))
     #+END_SRC
 
-    #+RESULTS:
-    : t
 
 ** DUMB-JUMP
 
@@ -547,6 +514,14 @@
     #+END_SRC
 
 
+** MAGIT
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package magit
+        :ensure t)
+    #+END_SRC
+
+
 ** JS-DOC
 
     #+BEGIN_SRC emacs-lisp
@@ -578,32 +553,31 @@
 ** TYPESCRIPT
 
     #+BEGIN_SRC emacs-lisp
-      (use-package typescript
-        :ensure t)
+            (use-package typescript
+              :ensure t
+              :config
+              (setq js-switch-indent-offset 2))
 
-      (use-package tide
-        :ensure t)
+            (use-package tide
+              :ensure t)
 
-      (defun setup-tide-mode ()
-        (interactive)
-        (tide-setup)
-        (flycheck-mode +1)
-        (setq flycheck-check-syntax-automatically '(save mode-enabled))
-        (eldoc-mode +1)
-        (tide-hl-identifier-mode +1))
+            (defun setup-tide-mode ()
+              (interactive)
+              (tide-setup)
+              (flycheck-mode +1)
+              (setq flycheck-check-syntax-automatically '(save mode-enabled))
+              (eldoc-mode +1)
+              (tide-hl-identifier-mode +1))
 
-      (setq company-tooltip-align-annotations t)
+            (setq company-tooltip-align-annotations t)
 
-      (add-hook 'typescript-mode-hook #'setup-tide-mode)
-      (add-hook 'web-mode-hook
-                (lambda ()
-                  (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                    (setup-tide-mode)
-                    (setq emmet-expand-jsx-className? t))))
+            (add-hook 'typescript-mode-hook #'setup-tide-mode)
+            (add-hook 'web-mode-hook
+                      (lambda ()
+                        (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                          (setup-tide-mode)
+                          (setq emmet-expand-jsx-className? t))))
     #+END_SRC
-
-    #+RESULTS:
-    | (lambda nil (when (string-equal tsx (file-name-extension buffer-file-name)) (setup-tide-mode) (setq emmet-expand-jsx-className? t))) | (lambda nil (if (string-equal tsx (file-name-extension buffer-file-name)) (progn (setup-tide-mode)))) | er/add-web-mode-expansions | emmet-mode |
 
 
 ** FLYCHECK
@@ -620,8 +594,6 @@
         (with-eval-after-load 'flycheck (flycheck-pos-tip-mode)))
     #+END_SRC
 
-    #+RESULTS:
-
 
 ** NERDTREE
 
@@ -631,23 +603,6 @@
         :config
         (setq neo-smart-open t))
     #+END_SRC
-
-    #+RESULTS:
-    : t
-
-
-** ESHELL-TOGGLE
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package shell-toggle
-        :ensure t
-        :config
-        (setq shell-toggle-launch-shell 'eshell)
-        (global-set-key (kbd "C-c ;") 'shell-toggle))
-    #+END_SRC
-
-    #+RESULTS:
-    : t
 
 
 ** SMART-PARENS
@@ -659,9 +614,6 @@
         (smartparens-global-mode))
     #+END_SRC
 
-    #+RESULTS:
-    : t
-
 
 ** JSON-MODE
 
@@ -669,7 +621,6 @@
       (use-package json-mode
         :ensure t)
     #+END_SRC
-
 
 
 ** GO-MODE
@@ -706,9 +657,6 @@
                     (local-set-key (kbd "C-c C-e m") 'flymake-popup-current-error-menu))))
     #+END_SRC
 
-    #+RESULTS:
-    : t
-
 
 ** MARKDOWN-MODE
 
@@ -733,8 +681,6 @@
         (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode)))
     #+END_SRC
 
-    #+RESULTS:
-
 
 ** WGREP
 
@@ -743,24 +689,39 @@
         :ensure t)
     #+END_SRC
 
-    #+RESULTS:
 
-
-** DASH
+** EVIL-NERD-COMMENTER
 
     #+BEGIN_SRC emacs-lisp
-      (use-package dash-at-point
-        :ensure t)
+      (use-package evil-nerd-commenter
+        :ensure t
+        :config
+        (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
+        (global-set-key (kbd "C-c p") 'evilnc-comment-or-uncomment-paragraphs))
     #+END_SRC
 
-    #+RESULTS:
 
+** OSX-CLIPBOARD
 
-* ORG插件
+    #+BEGIN_SRC emacs-lisp
+      (use-package osx-clipboard
+        :ensure t
+        :config
+        (osx-clipboard-mode +1))
+    #+END_SRC
 
-  #+BEGIN_SRC emacs-lisp
-    (use-package emojify
-      :ensure t
-      :config
-      (add-hook 'after-init-hook #'global-emojify-mode))
-  #+END_SRC
+** SSH
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package ssh
+        :ensure t
+        :init
+        (add-hook 'ssh-mode-hook
+                  (lambda()
+                    (setq-local company-idle-delay nil)
+                    (linum-mode 0)))
+        :config
+        (lambda ()
+          (shell-dirtrack-mode t)
+          (setq dirtrackp nil)))
+    #+END_SRC
