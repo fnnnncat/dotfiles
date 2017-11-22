@@ -3,6 +3,8 @@
 * 基础配置
 
   #+BEGIN_SRC emacs-lisp
+    (setq inferior-lisp-program "/usr/local/bin/sbcl")
+
     (unless window-system
       (global-set-key [mouse-4] 'scroll-down-line)
       (global-set-key [mouse-5] 'scroll-up-line))
@@ -220,7 +222,7 @@
 
             (setq x-underline-at-descent-line t)
 
-            (deftheme solarized-dark "Wow Light Theme")
+            (deftheme solarized-dark "Wow Dark Theme")
             (create-solarized-theme 'dark 'solarized-dark)))
     #+END_SRC
 
@@ -710,18 +712,13 @@
         (osx-clipboard-mode +1))
     #+END_SRC
 
-** SSH
+
+** SLIME
 
     #+BEGIN_SRC emacs-lisp
-      (use-package ssh
+      (use-package slime
         :ensure t
-        :init
-        (add-hook 'ssh-mode-hook
-                  (lambda()
-                    (setq-local company-idle-delay nil)
-                    (linum-mode 0)))
         :config
-        (lambda ()
-          (shell-dirtrack-mode t)
-          (setq dirtrackp nil)))
+        (setq inferior-lisp-program "/usr/local/bin/sbcl")
+        (setq slime-contribs '(slime-fancy)))
     #+END_SRC
