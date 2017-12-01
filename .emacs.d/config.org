@@ -3,6 +3,7 @@
 * 基础配置
 
   #+BEGIN_SRC emacs-lisp
+    ;; lisp编译器
     (setq inferior-lisp-program "/usr/local/bin/sbcl")
 
     (unless window-system
@@ -417,7 +418,7 @@
       (use-package js2-mode
         :ensure t
         :config
-        (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+        (add-to-list 'auto-mode-alist '("\\.(js|es6)\\'" . js2-mode))
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
         (setq forward-sexp-function nil))
@@ -466,6 +467,7 @@
         (add-to-list 'auto-mode-alist '("\\.tpl\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
         (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
+        (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
         (setq web-mode-enable-auto-pairing nil)
         (setq web-mode-enable-auto-closing t)
         (setq web-mode-enable-css-colorization t)
@@ -613,7 +615,9 @@
       (use-package smartparens
         :ensure t
         :config
-        (smartparens-global-mode))
+        (smartparens-global-mode)
+        (sp-local-pair '(emacs-lisp-mode) "'" "'" :actions nil)
+        (sp-local-pair '(lisp-mode) "'" "'" :actions nil))
     #+END_SRC
 
 
@@ -698,8 +702,7 @@
       (use-package evil-nerd-commenter
         :ensure t
         :config
-        (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines)
-        (global-set-key (kbd "C-c p") 'evilnc-comment-or-uncomment-paragraphs))
+        (global-set-key (kbd "M-;") 'evilnc-comment-or-uncomment-lines))
     #+END_SRC
 
 
@@ -721,4 +724,14 @@
         :config
         (setq inferior-lisp-program "/usr/local/bin/sbcl")
         (setq slime-contribs '(slime-fancy)))
+    #+END_SRC
+
+
+** ELPY
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package elpy
+        :ensure t
+        :config
+        (elpy-enable))
     #+END_SRC
