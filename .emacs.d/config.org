@@ -651,7 +651,7 @@
       (use-package go-mode
         :ensure t
         :init
-        (setenv "GOROOT" "/usr/local/Cellar/go/1.9.1/libexec")
+        (setenv "GOROOT" "/usr/local/Cellar/go/1.9.2/libexec")
         (setenv "GOPATH" "/Users/leeyunfan/workspace/code/go")
         (progn
           (setq gofmt-command "goimports")
@@ -750,4 +750,16 @@
         :ensure t
         :config
         (elpy-enable))
+    #+END_SRC
+
+
+** ORIGAMI
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package origami
+        :ensure t
+        :bind (("C-c l" . origami-toggle-node)
+               ("C-c C-l" . origami-toggle-all-nodes))
+        :config
+        (global-origami-mode))
     #+END_SRC
