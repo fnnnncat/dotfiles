@@ -573,7 +573,7 @@
 ** TYPESCRIPT
 
     #+BEGIN_SRC emacs-lisp
-            (use-package typescript
+            (use-package typescript-mode
               :ensure t
               :config
               (setq js-switch-indent-offset 2))
@@ -665,7 +665,7 @@
         :config
         (add-hook 'go-mode-hook 'go-eldoc-setup))
 
-      (use-package go-flymake
+      (use-package flymake-go
         :ensure t
         :config
         (add-hook 'flymake-mode-hook
