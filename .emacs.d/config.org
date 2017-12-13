@@ -189,10 +189,11 @@
 ** DRACULA-THEME
 
     #+BEGIN_SRC emacs-lisp
-      (use-package dracula-theme
-        :ensure t
-        :init
-        (load-theme 'dracula t))
+      (if window-system
+          (use-package dracula-theme
+            :ensure t
+            :init
+            (load-theme 'dracula t)))
     #+END_SRC
 
     #+RESULTS:
