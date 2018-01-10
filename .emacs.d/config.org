@@ -320,7 +320,7 @@
       (use-package counsel-projectile
         :ensure t
         :config
-        (counsel-projectile-on)
+        (counsel-projectile-mode)
         (global-set-key (kbd "C-x C-r") 'counsel-recentf))
     #+END_SRC
 
@@ -667,7 +667,7 @@
         :config
         (add-hook 'go-mode-hook 'go-eldoc-setup))
 
-      (use-package go-flymake
+      (use-package flymake-go
         :ensure t
         :config
         (add-hook 'flymake-mode-hook
@@ -764,4 +764,15 @@
                ("C-c C-l" . origami-toggle-all-nodes))
         :config
         (global-origami-mode))
+    #+END_SRC
+
+** LUA-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package lua-mode
+        :ensure t
+        :config
+        (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
+        (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
+        (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
     #+END_SRC
