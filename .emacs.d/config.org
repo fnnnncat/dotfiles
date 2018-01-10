@@ -575,7 +575,7 @@
 ** TYPESCRIPT
 
     #+BEGIN_SRC emacs-lisp
-            (use-package typescript
+            (use-package typescript-mode
               :ensure t
               :config
               (setq js-switch-indent-offset 2))
