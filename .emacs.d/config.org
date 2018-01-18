@@ -259,9 +259,6 @@
 
 
 ** HELM
-   :PROPERTIES:
-   :ORDERED:  t
-   :END:
 
     #+BEGIN_SRC emacs-lisp
       (use-package helm
