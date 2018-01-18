@@ -106,7 +106,7 @@
 
 
 ** ORGMODE插入代码块
-   #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
     (defun org-insert-src-block (src-code-type)
       "插入一个`SRC-CODE-TYPE'类型的代码块"
       (interactive
@@ -124,11 +124,11 @@
         (insert "#+END_SRC\n")
         (previous-line 2)
         (org-edit-src-code)))
-   #+END_SRC
+    #+END_SRC
 
 
 ** 在上／下行创建新行
-   #+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
      (defun insert-new-line-top()
        (interactive)
        (move-beginning-of-line 1)
@@ -141,7 +141,7 @@
 
      (global-set-key (kbd "C-c i n") 'insert-new-line-bottom)
      (global-set-key (kbd "C-c i p") 'insert-new-line-top)
-   #+END_SRC
+    #+END_SRC
 
 
 ** 移动当前行到上／下行
@@ -199,48 +199,6 @@
     #+RESULTS:
 
 
-** SOLARIZED-THEME
-
-    #+BEGIN_SRC emacs-lisp
-      (if window-system
-          (use-package solarized-theme
-            :disabled
-            :config
-            ;; make the fringe stand out from the background
-            (setq solarized-distinct-fringe-background t)
-
-            ;; Don't change the font for some headings and titles
-            (setq solarized-use-variable-pitch nil)
-
-            ;; make the modeline high contrast
-            (setq solarized-high-contrast-mode-line t)
-
-            ;; Use less bolding
-            (setq solarized-use-less-bold t)
-
-            ;; Use more italics
-            (setq solarized-use-more-italic t)
-
-            ;; Use less colors for indicators such as git:gutter, flycheck and similar
-            (setq solarized-emphasize-indicators nil)
-
-            ;; Don't change size of org-mode headlines (but keep other size-changes)
-            (setq solarized-scale-org-headlines nil)
-
-            ;; Avoid all font-size changes
-            (setq solarized-height-minus-1 1.0)
-            (setq solarized-height-plus-1 1.0)
-            (setq solarized-height-plus-2 1.0)
-            (setq solarized-height-plus-3 1.0)
-            (setq solarized-height-plus-4 1.0)
-
-            (setq x-underline-at-descent-line t)
-
-            (deftheme solarized-dark "Wow Dark Theme")
-            (create-solarized-theme 'dark 'solarized-dark)))
-    #+END_SRC
-
-
 ** EXEC-PATH-FROM-SHELL
 
     #+BEGIN_SRC emacs-lisp
@@ -263,7 +221,7 @@
                     (org-bullets-mode 1)
                     (projectile-mode 0)
                     (linum-mode 0))))
-     #+END_SRC
+    #+END_SRC
 
 
 ** WITCH-KEY
@@ -292,49 +250,67 @@
     #+END_SRC
 
 
-** IVY
+** TRY
 
     #+BEGIN_SRC emacs-lisp
-      (use-package counsel
+      (use-package try
         :ensure t)
-
-      (use-package swiper
-        :ensure try
-        :config
-        (progn
-          (ivy-mode 1)
-          (setq ivy-use-virtual-buffers t)
-          (global-set-key (kbd "\C-s") 'swiper)))
     #+END_SRC
 
 
-** PROJECTILE
+** HELM
+   :PROPERTIES:
+   :ORDERED:  t
+   :END:
 
     #+BEGIN_SRC emacs-lisp
-      (use-package projectile
+      (use-package helm
         :ensure t
-        :config
-        (projectile-global-mode)
-        (setq projectile-completion-system 'ivy))
-
-      (use-package counsel-projectile
-        :ensure t
-        :config
-        (counsel-projectile-mode)
-        (global-set-key (kbd "C-x C-r") 'counsel-recentf))
-    #+END_SRC
-
-
-** AVY
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package avy
-        :ensure t
-        :config
-        (avy-setup-default)
         :bind
-        ("M-s" . avy-goto-char))
+        ("M-x" . helm-M-x)
+        ("C-x C-r" . helm-recentf)
+        ("C-x C-f" . helm-find-files)
+        ("C-x C-b" . helm-buffers-list))
+
+      (use-package helm-ag
+        :ensure t
+        :after helm)
+
+      (use-package helm-swoop
+        :ensure t
+        :after helm
+        :bind
+        ("C-s" . helm-swoop))
+
+      (use-package helm-flyspell
+        :ensure t
+        :after helm)
+
+      (use-package helm-projectile
+        :ensure t
+        :after helm
+        :init
+        (projectile-global-mode)
+        (helm-projectile-on)
+        :bind
+        ("C-c p h" . helm-projectile)
+        ("C-c p p" . helm-projectile-switch-projectconfig)
+        ("C-c p f" . helm-projectile-find-file)
+        ("C-c p F" . helm-projectile-find-file-in-known-projects)
+        ("C-c p g" . helm-projectile-find-file-dwim)
+        ("C-c p d" . helm-projectile-find-dir)
+        ("C-c p e" . helm-projectile-recentf)
+        ("C-c p a" . helm-projectile-find-other-file)
+        ("C-c p i" . helm-projectile-invalidate-cache)
+        ("C-c p z" . helm-projectile-cache-current-file)
+        ("C-c p b" . helm-projectile-switch-to-buffer)
+        ("C-c p s g" . helm-projectile-grep)
+        ("C-c p s a" . helm-projectile-ack)
+        ("C-c p s s" . helm-projectile-ag))
+
     #+END_SRC
+
+    #+RESULTS:
 
 
 ** COMPANY
@@ -384,9 +360,8 @@
         :ensure t
         :bind (("<backspace>" . smart-hungry-delete-backward-char)
                ("C-d" . smart-hungry-delete-forward-char))
-        :defer nil ;; dont defer so we can add our functions to hooks
-        :config (smart-hungry-delete-add-default-hooks)
-        )
+        :defer nil
+        :config (smart-hungry-delete-add-default-hooks))
     #+END_SRC
 
 
@@ -395,14 +370,20 @@
     #+BEGIN_SRC emacs-lisp
       (use-package expand-region
         :ensure t
-        :config
-        (global-set-key (kbd "C-c e r e") 'er/expand-region)
-        (global-set-key (kbd "C-c e r w") 'er/mark-word)
-        (global-set-key (kbd "C-c e r d") 'er/mark-defun)
-        (global-set-key (kbd "C-c e r c") 'er/mark-comment)
-        (global-set-key (kbd "C-c e r q") 'er/mark-outside-quotes)
-        (global-set-key (kbd "C-c e r p") 'er/mark-outside-pairs))
+        :bind
+        ("C-c e r e" . er/expand-region)
+        ("C-c e r w" . er/mark-word)
+        ("C-c e r d" . er/mark-defun)
+        ("C-c e r c" . er/mark-comment)
+        ("C-c e r q" . er/mark-outside-quotes)
+        ("C-c e r p" . er/mark-outside-pairs)
+        ("C-c e r s" . er/mark-symbol)
+        ("C-c e r S" . er/mark-symbol-with-prefix)
+        ("C-c e r n" . er/mark-next-accessor)
+        ("C-c e r h" . er/mark-html-attribute))
     #+END_SRC
+
+    #+RESULTS:
 
 
 ** MULTIPLE-CURSORS
@@ -429,7 +410,7 @@
       (use-package js2-mode
         :ensure t
         :config
-        ;; (add-to-list 'auto-mode-alist '("\\.es6\\'" . js2-mode))
+        (add-to-list 'auto-mode-alist '("\\.es6\\'" . js2-mode))
         (setq js2-mode-show-parse-errors nil)
         (setq js2-mode-show-strict-warnings nil)
         (setq forward-sexp-function nil))
@@ -504,14 +485,15 @@
         :ensure t
         :init
         (dumb-jump-mode)
-        :bind (("M-g o" . dumb-jump-go-other-window)
-               ("M-g j" . dumb-jump-go)
-               ("M-g i" . dumb-jump-go-prompt)
-               ("M-g x" . dumb-jump-go-prefer-external)
-               ("M-g z" . dumb-jump-go-prefer-external-other-window)
-               ("M-g q" . dumb-jump-quick-look))
+        :bind
+        ("M-g o" . dumb-jump-go-other-window)
+        ("M-g j" . dumb-jump-go)
+        ("M-g i" . dumb-jump-go-prompt)
+        ("M-g x" . dumb-jump-go-prefer-external)
+        ("M-g z" . dumb-jump-go-prefer-external-other-window)
+        ("M-g q" . dumb-jump-quick-look)
         :config
-        (setq dumb-jump-selector 'ivy)
+        (setq dumb-jump-selector 'helm)
         (setq dumb-jump-force-searcher 'ag))
     #+END_SRC
 
@@ -541,24 +523,6 @@
     #+BEGIN_SRC emacs-lisp
       (use-package magit
         :ensure t)
-    #+END_SRC
-
-
-** JS-DOC
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package js-doc
-        :ensure t
-        :config
-        (setq js-doc-mail-address "liyunfan1@xiaomi.com"
-              js-doc-author (format "liyunfan1 <%s>" js-doc-mail-address)
-              js-doc-url "url of your website"
-              js-doc-license "license name")
-
-        (add-hook 'js2-mode-hook
-                  #'(lambda ()
-                      (define-key js2-mode-map "\C-ci" 'js-doc-insert-function-doc)
-                      (define-key js2-mode-map "@" 'js-doc-insert-tag))))
     #+END_SRC
 
 
@@ -765,6 +729,7 @@
         :config
         (global-origami-mode))
     #+END_SRC
+
 
 ** LUA-MODE
 
