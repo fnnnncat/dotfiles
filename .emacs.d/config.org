@@ -219,7 +219,6 @@
         (add-hook 'org-mode-hook
                   (lambda ()
                     (org-bullets-mode 1)
-                    (projectile-mode 0)
                     (linum-mode 0))))
     #+END_SRC
 
@@ -279,10 +278,6 @@
         :bind
         ("C-s" . helm-swoop))
 
-      (use-package helm-flyspell
-        :ensure t
-        :after helm)
-
       (use-package helm-projectile
         :ensure t
         :after helm
@@ -305,6 +300,8 @@
         ("C-c p s a" . helm-projectile-ack)
         ("C-c p s s" . helm-projectile-ag))
 
+      (use-package helm-themes
+        :ensure t)
     #+END_SRC
 
     #+RESULTS:
@@ -737,4 +734,23 @@
         (autoload 'lua-mode "lua-mode" "Lua editing mode." t)
         (add-to-list 'auto-mode-alist '("\\.lua$" . lua-mode))
         (add-to-list 'interpreter-mode-alist '("lua" . lua-mode)))
+    #+END_SRC
+
+
+** VISUAL-REGEXP
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package visual-regexp
+        :ensure t)
+
+    #+END_SRC
+
+
+** RAINBOW-DELIMITERS
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package rainbow-delimiters
+        :ensure t
+        :config
+        (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
     #+END_SRC
