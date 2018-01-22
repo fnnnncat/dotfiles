@@ -272,12 +272,6 @@
         :ensure t
         :after helm)
 
-      (use-package helm-swoop
-        :ensure t
-        :after helm
-        :bind
-        ("C-s" . helm-swoop))
-
       (use-package helm-projectile
         :ensure t
         :after helm
@@ -304,7 +298,14 @@
         :ensure t)
     #+END_SRC
 
-    #+RESULTS:
+** SWIPER
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package swiper
+        :ensure t
+        :bind
+        ("C-s" . swiper))
+    #+END_SRC
 
 
 ** COMPANY
