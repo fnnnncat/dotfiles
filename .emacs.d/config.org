@@ -80,6 +80,15 @@
 
     ;; 使用y或者n 而不是 yes或者no
     (fset 'yes-or-no-p 'y-or-n-p)
+
+    ;; 使用一个比较大的kill-ring来存储我删掉的东西
+    (setq kill-ring-max 500)
+
+    ;; 可以直接打开显示图片
+    (auto-image-file-mode)
+
+    ;; 标题栏显示buffer名
+    (setq frame-title-format "emacs@%b")
   #+END_SRC
 
 
@@ -185,6 +194,17 @@
 
 
 * 常用插件
+** ORG-MODE
+
+    #+BEGIN_SRC emacs-lisp
+      (use-package org-bullets
+        :ensure t
+        :hook
+        (org-mode . (lambda ()
+                      (org-bullets-mode 1)
+                      (linum-mode 0))))
+    #+END_SRC
+
 
 ** DRACULA-THEME
 
@@ -207,19 +227,6 @@
         :config
         (when (memq window-system '(mac ns x))
           (exec-path-from-shell-initialize)))
-    #+END_SRC
-
-
-** ORG-BULLETS
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package org-bullets
-        :ensure t
-        :config
-        (add-hook 'org-mode-hook
-                  (lambda ()
-                    (org-bullets-mode 1)
-                    (linum-mode 0))))
     #+END_SRC
 
 
@@ -297,6 +304,7 @@
       (use-package helm-themes
         :ensure t)
     #+END_SRC
+
 
 ** SWIPER
 
@@ -391,6 +399,10 @@
 
       (use-package multiple-cursors
         :ensure t
+        :bind
+        ("C-c m c t" . mc/mark-sgml-tag-pair)
+        ("C-c m c n" . mc/mark-next-lines)
+        ("C-c m c r" . mc/repeat-command)
         :config
         (define-key region-bindings-mode-map "a" 'mc/mark-all-like-this)
         (define-key region-bindings-mode-map "p" 'mc/mark-previous-like-this)
@@ -398,6 +410,9 @@
         (define-key region-bindings-mode-map "k" 'mc/skip-to-preview-like-this)
         (define-key region-bindings-mode-map "j" 'mc/skip-to-next-like-this))
     #+END_SRC
+
+    #+RESULTS:
+    : mc/repeat-command
 
 
 ** JS2-MODE
@@ -755,3 +770,13 @@
         :config
         (add-hook 'prog-mode-hook #'rainbow-delimiters-mode))
     #+END_SRC
+
+
+** BROWSE-KILL-RIGN
+
+		#+BEGIN_SRC emacs-lisp
+      (use-package browse-kill-ring
+        :ensure t
+        :bind
+        ("C-c b k r" . browse-kill-ring))
+		#+END_SRC
