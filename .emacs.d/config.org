@@ -94,6 +94,7 @@
 
 * 自定义函数
 
+
 ** 重新缩进当前选中区域或整个BUFFER
     #+BEGIN_SRC emacs-lisp
      (defun indent-buffer()
@@ -190,6 +191,22 @@
 
       (global-set-key (kbd "C-c m p") 'move-text-up)
       (global-set-key (kbd "C-c m n") 'move-text-down)
+    #+END_SRC
+
+
+** KILL-LINE-OR-REGION
+
+    #+BEGIN_SRC emacs-lisp
+      (defun kill-line-or-region(&optional arg)
+        "根据不同情况删除一行或者选区"
+        (interactive "P")
+        (if mark-active
+            (if (= (region-beginning) (region-end))
+                (kill-line arg)
+              (kill-region (region-beginning) (region-end))))
+        (kill-line arg))
+
+      (global-set-key (kbd "C-k") 'kill-line-or-region)
     #+END_SRC
 
 
@@ -359,13 +376,26 @@
 ** SMART-HUNGRY-DELETE
 
     #+BEGIN_SRC emacs-lisp
+      (defun smart-hungry-delete-region-code(&optional arg)
+        "根据不同情况删除后面一个字符或者选区"
+        (interactive "P")
+        (if mark-active
+            (if (= (region-beginning) (region-end))
+                (smart-hungry-delete-forward-char arg)
+              (kill-region (region-beginning) (region-end)))
+          (smart-hungry-delete-forward-char arg)))
+
       (use-package smart-hungry-delete
         :ensure t
-        :bind (("<backspace>" . smart-hungry-delete-backward-char)
-               ("C-d" . smart-hungry-delete-forward-char))
-        :defer nil
-        :config (smart-hungry-delete-add-default-hooks))
+        :bind
+        ("<backspace>" . smart-hungry-delete-backward-char)
+        ("C-d" . smart-hungry-delete-region-code)
+        :config
+        (smart-hungry-delete-add-default-hooks))
     #+END_SRC
+
+    #+RESULTS:
+    : smart-hungry-delete-region-code
 
 
 ** EXPAND-REGION
@@ -543,30 +573,30 @@
 ** TYPESCRIPT
 
     #+BEGIN_SRC emacs-lisp
-            (use-package typescript-mode
-              :ensure t
-              :config
-              (setq js-switch-indent-offset 2))
+      (use-package typescript-mode
+        :ensure t
+        :config
+        (setq js-switch-indent-offset 2))
 
-            (use-package tide
-              :ensure t)
+      (use-package tide
+        :ensure t
+        :config
+        (setq company-tooltip-align-annotations t)
+        :hook
+        (before-save . tide-format-before-save)
+        (typescript-mode . setup-tide-mode)
+        (web-mode . (lambda()
+                      (when (string-equal "tsx" (file-name-extension buffer-file-name))
+                        (setup-tide-mode)
+                        (setq emmet-expand-jsx-className? t)))))
 
-            (defun setup-tide-mode ()
-              (interactive)
-              (tide-setup)
-              (flycheck-mode +1)
-              (setq flycheck-check-syntax-automatically '(save mode-enabled))
-              (eldoc-mode +1)
-              (tide-hl-identifier-mode +1))
-
-            (setq company-tooltip-align-annotations t)
-
-            (add-hook 'typescript-mode-hook #'setup-tide-mode)
-            (add-hook 'web-mode-hook
-                      (lambda ()
-                        (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                          (setup-tide-mode)
-                          (setq emmet-expand-jsx-className? t))))
+      (defun setup-tide-mode ()
+        (interactive)
+        (tide-setup)
+        (flycheck-mode +1)
+        (setq flycheck-check-syntax-automatically '(save mode-enabled))
+        (eldoc-mode +1)
+        (tide-hl-identifier-mode +1))
     #+END_SRC
 
 
