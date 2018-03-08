@@ -651,8 +651,9 @@
       (use-package go-mode
         :ensure t
         :init
-        (setenv "GOROOT" "/usr/local/Cellar/go/1.9.2/libexec")
-        (setenv "GOPATH" "/Users/leeyunfan/workspace/code/go")
+        (setenv "GO15VENDOREXPERIMENT" "1")
+        (setenv "GOROOT" (exec-path-from-shell-getenv "GOROOT"))
+        (setenv "GOPATH" (exec-path-from-shell-getenv "GOPATH"))
         (progn
           (setq gofmt-command "goimports")
           (add-hook 'before-save-hook 'gofmt-before-save))
