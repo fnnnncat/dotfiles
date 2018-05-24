@@ -1,13 +1,14 @@
 (when (>= emacs-major-version 24)
   (require 'package)
-  (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
-                            ("melpa" . "http://elpa.emacs-china.org/melpa/")))
+  (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnue")
+                           ("melpa" . "http://elpa.emacs-china.org/melpa/")))
   (add-to-list 'load-path "~/.emacs.d/lisp/")
-  (package-initialize))
+  (package-initialize)
+  (setq package--initialized t))
 
 (unless (package-installed-p 'use-package)
-	(package-refresh-contents)
-	(package-install 'use-package))
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (windmove-default-keybindings)
 
