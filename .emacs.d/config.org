@@ -425,16 +425,6 @@
     #+END_SRC
 
 
-** GIT-GUTTER
-
-    #+BEGIN_SRC emacs-lisp
-      (use-package git-gutter
-        :ensure t
-        :config
-        (global-git-gutter-mode t))
-    #+END_SRC
-
-
 ** MAGIT
 
     #+BEGIN_SRC emacs-lisp
