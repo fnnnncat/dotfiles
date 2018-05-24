@@ -1,6 +1,6 @@
 (when (>= emacs-major-version 24)
   (require 'package)
-  (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnue")
+  (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                            ("melpa" . "http://elpa.emacs-china.org/melpa/")))
   (add-to-list 'load-path "~/.emacs.d/lisp/")
   (package-initialize)
