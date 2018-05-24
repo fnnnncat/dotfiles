@@ -1,3 +1,4 @@
+
 #+STARTUP: overview
 
 * 基础配置
@@ -522,7 +523,7 @@
 
 ** KILL-RIGN
 
-		#+BEGIN_SRC emacs-lisp
+    #+BEGIN_SRC emacs-lisp
       (use-package browse-kill-ring
         :ensure t)
 
@@ -530,7 +531,7 @@
         :ensure t
         :bind
         ("C-c b k" . popup-kill-ring))
-		#+END_SRC
+    #+END_SRC
 
 
 * 美化样式
@@ -777,7 +778,22 @@
         (add-hook 'flymake-mode-hook
                   (lambda()
                     (local-set-key (kbd "C-c C-e m") 'flymake-popup-current-error-menu))))
+
+      (use-package go-add-tags
+        :ensure t)
+
+      (use-package popwin
+        :ensure t
+        :init
+        (setq display-buffer-function 'popwin:display-buffer)
+        :config
+        (push '("^\*go-direx:" :regexp t :position right :width 0.4 :dedicated t :stick t)
+              popwin:special-display-config))
+
+      (use-package go-direx
+        :ensure t)
     #+END_SRC
+
 
 ** PROTOBUF-MODE
 

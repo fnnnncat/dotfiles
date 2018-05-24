@@ -23,7 +23,7 @@
     ("d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "a24c5b3c12d147da6cef80938dca1223b7c7f70f2f382b26308eba014dc4833a" "ff7625ad8aa2615eae96d6b4469fcc7d3d20b2e1ebc63b761a349bebbb9d23cb" "b571f92c9bfaf4a28cb64ae4b4cdbda95241cd62cf07d942be44dc8f46c491f4" default)))
  '(package-selected-packages
    (quote
-    (protobuf-mode popup-kill-ring helm-flyspell helm-css-scss helm-swoop ace-jump-helm-line swiper-helm helm-projectile helm-projectil helm-company helm-ag dracula-theme dracula elpy ssh magit evil-nerd-commenter rjsx-mode go-flymake dash-at-point emojify markdown-preview-eww markdown-mode company-go counsel-gtags go-eldoc smartparens-config shell-toggle shell-toggle-plus eshell-toggle-plus eshell-toggle tide flycheck typescript typescript-mode neotree better-shell org-trello which-key solarized-theme use-package))))
+    (go-direx popwin go-add-tags protobuf-mode popup-kill-ring helm-flyspell helm-css-scss helm-swoop ace-jump-helm-line swiper-helm helm-projectile helm-projectil helm-company helm-ag dracula-theme dracula elpy ssh magit evil-nerd-commenter rjsx-mode go-flymake dash-at-point emojify markdown-preview-eww markdown-mode company-go counsel-gtags go-eldoc smartparens-config shell-toggle shell-toggle-plus eshell-toggle-plus eshell-toggle tide flycheck typescript typescript-mode neotree better-shell org-trello which-key solarized-theme use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
