@@ -1,7 +1,10 @@
-*
+.emacs.d/*
 !.emacs.d/init.el
+!.emacs.d/base.el
 !.emacs.d/config.org
-!.emacs.d/lisp
+!.emacs.d/plugin
+!.emacs.d/theme
+!.emacs.d/function
 !LICENSE
 !.gitignore
 !.tmux
