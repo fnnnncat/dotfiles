@@ -74,6 +74,12 @@
 (require 'plugin-osx-clipboard)
 (require 'plugin-origami)
 (require 'plugin-browse-kill-ring)
+(require 'plugin-go)
+(require 'plugin-protobuf)
+(require 'plugin-json)
+(require 'plugin-front-end)
+(require 'plugin-php)
+(require 'plugin-markdown)
 
 (add-to-list 'load-path "~/.emacs.d/theme/")
 (require 'theme-dracula)
