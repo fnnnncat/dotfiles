@@ -3,10 +3,12 @@
 !.emacs.d/plugin
 !.emacs.d/theme
 !.emacs.d/function
-!.emacs.d/snippet
+!.emacs.d/snippets
 !LICENSE
 !.gitignore
 !.tmux
+!.dumbjump
+!.dumbjumpignore
 !.vimrc
 !.editorconfig
 !.npmrc

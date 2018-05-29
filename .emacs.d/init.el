@@ -85,6 +85,7 @@
 (require 'plugin-helm)
 (require 'plugin-popwin)
 (require 'plugin-yasnippet)
+(require 'plugin-dumb-jump)
 
 (add-to-list 'load-path "~/.emacs.d/theme/")
 (require 'theme-dracula)
@@ -98,7 +99,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (yasnippet powerline rainbow-delimiters dracula-theme popwin helm-themes helm-projectile helm-rg helm markdown-mode php-mode tide typescript-mode rjsx-mode js2-mode emmet-mode web-mode json-mode protobuf-mode go-direx go-add-tags flymake-go go-eldoc popup-kill-ring browse-kill-ring origami osx-clipboard evil-nerd-commenter flycheck-pos-tip flycheck magit editorconfig expand-region multiple-cursors region-bindings-mode company-go company which-key try swiper smart-hungry-delete exec-path-from-shell ace-window neotree smartparens use-package))))
+    (dumb-jump yasnippet powerline rainbow-delimiters dracula-theme popwin helm-themes helm-projectile helm-rg helm markdown-mode php-mode tide typescript-mode rjsx-mode js2-mode emmet-mode web-mode json-mode protobuf-mode go-direx go-add-tags flymake-go go-eldoc popup-kill-ring browse-kill-ring origami osx-clipboard evil-nerd-commenter flycheck-pos-tip flycheck magit editorconfig expand-region multiple-cursors region-bindings-mode company-go company which-key try swiper smart-hungry-delete exec-path-from-shell ace-window neotree smartparens use-package))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
