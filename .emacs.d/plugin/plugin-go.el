@@ -35,17 +35,9 @@
   :ensure t
   :after go-mode)
 
-(use-package popwin
-  :ensure t
-  :after go-mode
-  :init
-  (setq display-buffer-alist 'popwin:display-buffer)
-  :config
-  (push '("^\*go-direx:" :regexp t :position right :width 0.4 :dedicated t :stick t)
-        popwin:special-display-config))
-
 (use-package go-direx
   :after go-mode
   :ensure t)
+
 
 (provide 'plugin-go)

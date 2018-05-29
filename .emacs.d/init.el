@@ -80,6 +80,8 @@
 (require 'plugin-front-end)
 (require 'plugin-php)
 (require 'plugin-markdown)
+(require 'plugin-helm)
+(require 'plugin-popwin)
 
 (add-to-list 'load-path "~/.emacs.d/theme/")
 (require 'theme-dracula)
