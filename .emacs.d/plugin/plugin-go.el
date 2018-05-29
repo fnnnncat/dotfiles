@@ -36,7 +36,6 @@
   :after go-mode)
 
 (use-package go-direx
-  :after go-mode
   :ensure t)
 
 

@@ -6,7 +6,7 @@
   ("C-x C-f" . helm-find-files)
   ("C-x C-b" . helm-buffers-list))
 
-(use-package helm-ag
+(use-package helm-rg
   :ensure t
   :after helm)
 
@@ -14,7 +14,7 @@
   :ensure t
   :after helm
   :init
-  (projectile-global-mode)
+  (projectile-mode)
   (helm-projectile-on)
   :bind
   ("C-c p h" . helm-projectile)
@@ -30,7 +30,7 @@
   ("C-c p b" . helm-projectile-switch-to-buffer)
   ("C-c p s g" . helm-projectile-grep)
   ("C-c p s a" . helm-projectile-ack)
-  ("C-c p s s" . helm-projectile-ag))
+  ("C-c p s r" . helm-projectile-rg))
 
 (use-package helm-themes
   :ensure t)
