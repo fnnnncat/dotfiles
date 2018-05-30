@@ -10,7 +10,7 @@
 (use-package smart-hungry-delete
   :ensure t
   :bind
-  ("<backspace>" . smart-hungry-delete-backward-char)
+  ;;("<backspace>" . smart-hungry-delete-backward-char)
   ("C-d" . smart-hungry-delete-region-code)
   :config
   (smart-hungry-delete-add-default-hooks))

@@ -4,6 +4,10 @@
 ;;; Code:
 (require 'package)
 (require 'cl)
+
+;;; This is a bad config
+(setq warning-minimum-level :emergency)
+
 (setq package-archives '(("gnu"   . "http://elpa.emacs-china.org/gnu/")
                          ("melpa" . "http://elpa.emacs-china.org/melpa/")))
 (package-initialize)
