@@ -11,6 +11,7 @@
   (define-key region-bindings-mode-map "n" 'mc/mark-next-like-this)
   (define-key region-bindings-mode-map "k" 'mc/skip-to-preview-like-this)
   (define-key region-bindings-mode-map "j" 'mc/skip-to-next-like-this)
+  (define-key mc/keymap (kbd "<return>") nil)
   (global-set-key (kbd "C-c m c t") 'mc/mark-sgml-tag-pair)
   (global-set-key (kbd "C-c m c n") 'mc/mark-next-lines)
   (global-set-key (kbd "C-c m c r") 'mc/repeat-command))

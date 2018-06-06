@@ -55,6 +55,9 @@
       (tool-bar-mode -1)
       (scroll-bar-mode -1)))
 
+(add-to-list 'load-path "~/.emacs.d/self/")
+(require 'private-sql-config)
+
 (add-to-list 'load-path "~/.emacs.d/function/")
 (require 'org-insert-src-block)
 (require 'indent-region-or-buffer)
@@ -90,6 +93,7 @@
 (require 'plugin-popwin)
 (require 'plugin-yasnippet)
 (require 'plugin-dumb-jump)
+(require 'plugin-sql)
 
 (add-to-list 'load-path "~/.emacs.d/theme/")
 (require 'theme-dracula)
